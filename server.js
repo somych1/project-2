@@ -6,7 +6,7 @@ const expressLayouts = require('express-ejs-layouts');
 const session = require('express-session');
 
 const port = 3000;
-const nonAuth = ['/','/login','/register','/logout','/home'];
+const nonAuth = ['/','/login','/register','/logout','/home','/movies'];
 
 require('./db/db');
 
@@ -36,24 +36,24 @@ app.use(expressLayouts);
 app.use(bodyParser.urlencoded({extended: false}))
 
 
-app.use(function isAuthenticated(req,res,next) {
+// app.use(function isAuthenticated(req,res,next) {
 
-  for (let route of nonAuth) {
-    if (req.url === route) {
-      return next();
-    }
-  }
+//   for (let route of nonAuth) {
+//     if (req.url === route) {
+//       return next();
+//     }
+//   }
 
-  if (req.method === "DELETE") {
-    return next();
-  }
-  // CHECK THE USER STORED IN SESSION FOR LOGGEDIN
-  if (req.session.loggedIn) return next();
+//   if (req.method === "DELETE") {
+//     return next();
+//   }
+//   // CHECK THE USER STORED IN SESSION FOR LOGGEDIN
+//   if (req.session.loggedIn) return next();
 
-  // IF A USER ISN'T LOGGED IN, THEN REDIRECT THEM TO THE LOGIN PAGE
-  req.session.register = false;
-  res.redirect('/');
-})
+//   // IF A USER ISN'T LOGGED IN, THEN REDIRECT THEM TO THE LOGIN PAGE
+//   req.session.register = false;
+//   res.redirect('/');
+// })
  
 
 app.use('/',authController);
@@ -71,9 +71,5 @@ app.use('/movies', movieController)
 
 
 app.listen(port, () => {
-<<<<<<< HEAD
   console.log('listening on port ' + port)
-=======
-	console.log('listening on port ' + port)
->>>>>>> 607810e3d817abad8e6f3fbcaabb7de3d1d39f07
 })

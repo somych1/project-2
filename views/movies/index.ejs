@@ -3,8 +3,44 @@
 <head>
 	<meta charset="utf-8">
 	<title></title>
+	<link rel="stylesheet" type="text/css" href="/css/movieStyle.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+		</script>
+
 </head>
 <body>
-	<h1>Index page</h1>
+	<header class="movie-header container">
+		<div class="search">
+			<form action="/api/search" method="GET">
+				<input type="text" name="name" placeholder="name" />
+				<input type="text" name="title" placeholder="zipcode">
+				<button type="submit">Search</button>
+			</form>
+			
+		</div>
+		<div>
+			<nav>
+				<ul class="row justify-content-around">
+					<li><a href="">About</a></li>
+					<li><a href="">Contacts</a></li>
+					<li><a href="">Logout</a></li>
+				</ul>
+			</nav>
+		</div>
+	</header>
+	<section class="container">
+		<div class="section">
+			<!-- list of movies with images -->
+			<% for(let i = 0; i < movie.length; i++) { %>
+				<a href="/show">
+					<img src="<%= movie[i].media.posterStandard %>">
+				</a>
+
+			<% } %>
+
+		</div>
+	</section>
+
+	<script type="text/javascript" src="/js/movieApp.js"></script>
 </body>
 </html>
