@@ -13,12 +13,17 @@ require('./db/db');
 const authController = require('./controllers/authController');
 
 app.use(session({
-
+<<<<<<< HEAD
+  secret: require('./secrets/secret.js'),
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false }
+=======
 	secret: require('./secrets/secret.js'),
 	resave: false,
 	saveUninitialized: false,
 	cookie: { secure: false }
-
+>>>>>>> 607810e3d817abad8e6f3fbcaabb7de3d1d39f07
 }))
 
 
@@ -36,25 +41,31 @@ app.use(expressLayouts);
 app.use(bodyParser.urlencoded({extended: false}))
 
 
-app.use(function isAuthenticated(req,res,next) {
+// app.use(function isAuthenticated(req,res,next) {
 
-  for (let route of nonAuth) {
-    if (req.url === route) {
-      return next();
-    }
-  }
+//   for (let route of nonAuth) {
+//     if (req.url === route) {
+//       return next();
+//     }
+//   }
 
-  if (req.method === "DELETE") {
-    return next();
-  }
-  // CHECK THE USER STORED IN SESSION FOR LOGGEDIN
-  if (req.session.loggedIn) return next();
+//   if (req.method === "DELETE") {
+//     return next();
+//   }
+//   // CHECK THE USER STORED IN SESSION FOR LOGGEDIN
+//   if (req.session.loggedIn) return next();
 
+<<<<<<< HEAD
+//   // IF A USER ISN'T LOGGED IN, THEN REDIRECT THEM TO THE LOGIN PAGE
+//   req.session.register = false;
+//   res.redirect('/');
+// })
+=======
   // IF A USER ISN'T LOGGED IN, THEN REDIRECT THEM TO THE LOGIN PAGE
   req.session.register = false;
   res.redirect('/');
 })
- 
+>>>>>>> 607810e3d817abad8e6f3fbcaabb7de3d1d39f07
 
 app.use('/',authController);
 
