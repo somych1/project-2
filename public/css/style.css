@@ -7,8 +7,8 @@ body {
     background-position: cover;
 }
 
-.section {
-  height: 100px;
+.top-list {
+  justify-content: space-between;
 }
 
 .movie-header {

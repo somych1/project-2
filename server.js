@@ -12,19 +12,11 @@ require('./db/db');
 
 const authController = require('./controllers/authController');
 
-app.use(session({
-
-	secret: require('./secrets/secret.js'),
-	resave: false,
-	saveUninitialized: false,
-	cookie: { secure: false }
-
-}))
 
 
 // middleware
 app.use(session({
-  secret: require('./secrets/secret.js'),
+  secret: 'showtime',
   resave: false,
   saveUninitialized: false,
   cookie: { secure: false }
