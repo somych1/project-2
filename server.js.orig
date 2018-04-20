@@ -6,19 +6,24 @@ const expressLayouts = require('express-ejs-layouts');
 const session = require('express-session');
 
 const port = 3000;
-const nonAuth = ['/','/login','/register','/logout','/home','/movies'];
+const nonAuth = ['/','/login','/register','/logout','/home'];
 
 require('./db/db');
 
 const authController = require('./controllers/authController');
 
 app.use(session({
-
+<<<<<<< HEAD
+  secret: require('./secrets/secret.js'),
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false }
+=======
 	secret: require('./secrets/secret.js'),
 	resave: false,
 	saveUninitialized: false,
 	cookie: { secure: false }
-
+>>>>>>> 607810e3d817abad8e6f3fbcaabb7de3d1d39f07
 }))
 
 
@@ -50,11 +55,17 @@ app.use(bodyParser.urlencoded({extended: false}))
 //   // CHECK THE USER STORED IN SESSION FOR LOGGEDIN
 //   if (req.session.loggedIn) return next();
 
+<<<<<<< HEAD
 //   // IF A USER ISN'T LOGGED IN, THEN REDIRECT THEM TO THE LOGIN PAGE
 //   req.session.register = false;
 //   res.redirect('/');
 // })
- 
+=======
+  // IF A USER ISN'T LOGGED IN, THEN REDIRECT THEM TO THE LOGIN PAGE
+  req.session.register = false;
+  res.redirect('/');
+})
+>>>>>>> 607810e3d817abad8e6f3fbcaabb7de3d1d39f07
 
 app.use('/',authController);
 
@@ -71,5 +82,9 @@ app.use('/movies', movieController)
 
 
 app.listen(port, () => {
+<<<<<<< HEAD
   console.log('listening on port ' + port)
+=======
+	console.log('listening on port ' + port)
+>>>>>>> 607810e3d817abad8e6f3fbcaabb7de3d1d39f07
 })
