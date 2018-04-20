@@ -13,19 +13,19 @@ require('./db/db');
 const authController = require('./controllers/authController');
 
 app.use(session({
-	secret: 'this would be some random string you would store',
-	resave: false,
-	saveUninitialized: false,
-	cookie: { secure: false }
+  secret: require('./secrets/secret.js'),
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false }
 }))
 
 
 // middleware
 app.use(session({
-	secret: require('./secrets/secret.js'),
-	resave: false,
-	saveUninitialized: false,
-	cookie: { secure: false }
+  secret: require('./secrets/secret.js'),
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false }
 }))
 app.use(methodOverride('_method'));
 app.use(express.static('public'))
@@ -34,28 +34,29 @@ app.use(expressLayouts);
 app.use(bodyParser.urlencoded({extended: false}))
 
 
-app.use(function isAuthenticated(req,res,next) {
+// app.use(function isAuthenticated(req,res,next) {
 
-  for (let route of nonAuth) {
-  	if (req.url === route) {
-  		return next();
-  	}
-  }
+//   for (let route of nonAuth) {
+//     if (req.url === route) {
+//       return next();
+//     }
+//   }
 
-  if (req.method === "DELETE") {
-  	return next();
-  }
-  // CHECK THE USER STORED IN SESSION FOR LOGGEDIN
-  if (req.session.loggedIn) return next();
+//   if (req.method === "DELETE") {
+//     return next();
+//   }
+//   // CHECK THE USER STORED IN SESSION FOR LOGGEDIN
+//   if (req.session.loggedIn) return next();
 
-  // IF A USER ISN'T LOGGED IN, THEN REDIRECT THEM TO THE LOGIN PAGE
-  req.session.register = false;
-  console.log(req.get('host'),req.get('origin'));
-  req.session.from = req.get('host');
-  res.redirect('/');
-})
+//   // IF A USER ISN'T LOGGED IN, THEN REDIRECT THEM TO THE LOGIN PAGE
+//   req.session.register = false;
+//   res.redirect('/');
+// })
 
 app.use('/',authController);
+
+const movieController = require('./controllers/movieController');
+app.use('/movies', movieController)
 
 
 
@@ -67,5 +68,5 @@ app.use('/',authController);
 
 
 app.listen(port, () => {
-	console.log('lictening on port ' + port)
+  console.log('listening on port ' + port)
 })
