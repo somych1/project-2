@@ -6,8 +6,11 @@ const expressLayouts = require('express-ejs-layouts');
 const session = require('express-session');
 
 const port = 3000;
+const nonAuth = ['/','/login','/register','/logout','/home'];
 
 require('./db/db');
+
+const authController = require('./controllers/authController');
 
 app.use(session({
 	secret: 'this would be some random string you would store',
@@ -18,6 +21,12 @@ app.use(session({
 
 
 // middleware
+app.use(session({
+	secret: require('./secrets/secret.js'),
+	resave: false,
+	saveUninitialized: false,
+	cookie: { secure: false }
+}))
 app.use(methodOverride('_method'));
 app.use(express.static('public'))
 app.set('view engine', 'ejs');
@@ -25,23 +34,28 @@ app.use(expressLayouts);
 app.use(bodyParser.urlencoded({extended: false}))
 
 
-// app.use((req, res, next) => {
-// 	// check if they are logged in if they are going to the articles
-// 	// or authors controllers if not send them back to the login and leave a
-// 	// message at
-// 	console.log(req.path)
-// 	if(req.path.includes('authors') || req.path.includes('articles')){
-// 		if(req.session.logged){
-// 			next()
-// 		} else {
-// 			// res.session.message = 'you need to be logged'
-// 			res.redirect('/')
-// 		}
-// 	} else {
-// 		next()
-// 	}
-// })
+app.use(function isAuthenticated(req,res,next) {
 
+  for (let route of nonAuth) {
+  	if (req.url === route) {
+  		return next();
+  	}
+  }
+
+  if (req.method === "DELETE") {
+  	return next();
+  }
+  // CHECK THE USER STORED IN SESSION FOR LOGGEDIN
+  if (req.session.loggedIn) return next();
+
+  // IF A USER ISN'T LOGGED IN, THEN REDIRECT THEM TO THE LOGIN PAGE
+  req.session.register = false;
+  console.log(req.get('host'),req.get('origin'));
+  req.session.from = req.get('host');
+  res.redirect('/');
+})
+
+app.use('/',authController);
 
 
 
