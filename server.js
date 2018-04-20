@@ -4,20 +4,15 @@ const bodyParser = require('body-parser');
 const methodOverride = require('method-override')
 const expressLayouts = require('express-ejs-layouts');
 const session = require('express-session');
+require('dotenv').config();
 
-const port = 3000;
-const nonAuth = ['/','/login','/register','/logout','/home'];
+const port = process.env.PORT;
+const nonAuth = ['/','/login','/register','/logout','/home','/api/*'];
 
 require('./db/db');
 
 const authController = require('./controllers/authController');
-
-app.use(session({
-	secret: require('./secrets/secret.js'),
-	resave: false,
-	saveUninitialized: false,
-	cookie: { secure: false }
-}))
+const apiController = require('./controllers/apiController');
 
 
 // middleware
@@ -36,10 +31,43 @@ app.use(bodyParser.urlencoded({extended: false}))
 
 app.use(function isAuthenticated(req,res,next) {
 
+  //console.log(req);
+  let routeInd;
+  let globInds = [];
+  let lastInd = 0;
+  let nextInd = 0;
+  let ok = true;
+  let searchInd = 0;
   for (let route of nonAuth) {
+
+    searchInd = 0;
+    lastInd = 0;
+
   	if (req.url === route) {
   		return next();
   	}
+    else if (route.indexOf('*') >= 0) {
+      do {
+        if (lastInd === 0) searchInd = 0;
+        else searchInd = lastInd+2;
+
+        nextInd = route.indexOf('/*',searchInd);
+
+        if (nextInd < route.length && nextInd >=0) {
+
+          if (req.url.indexOf(route.slice(searchInd, nextInd)) >= 0) {
+            ok = true;
+          }
+          else if (nextInd != lastInd) {
+            ok = false;
+          }
+        }
+
+        lastInd = nextInd;
+      } while (lastInd >= 0 && ok === true)
+
+      if (ok && (req.url.replace(/[^//]/g, "").length >= route.replace(/[^//]/g, "").length)) return next()
+    }
   }
 
   if (req.method === "DELETE") {
@@ -53,13 +81,8 @@ app.use(function isAuthenticated(req,res,next) {
   res.redirect('/');
 })
 
+app.use('/api',apiController);
 app.use('/',authController);
-
-
-
-
-
-
 
 
 
