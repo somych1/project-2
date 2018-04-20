@@ -7,7 +7,9 @@ const session = require('express-session');
 require('dotenv').config();
 
 const port = process.env.PORT;
-const nonAuth = ['/','/login','/register','/logout','/home','/api/*'];
+
+let nonAuth = [];
+eval('nonAuth = '+process.env.NONAUTH);
 
 require('./db/db');
 
@@ -17,7 +19,7 @@ const apiController = require('./controllers/apiController');
 
 // middleware
 app.use(session({
-	secret: require('./secrets/secret.js'),
+	secret: process.env.SECRET,
 	resave: false,
 	saveUninitialized: false,
 	cookie: { secure: false }
