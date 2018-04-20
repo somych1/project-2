@@ -10,6 +10,7 @@ const port = process.env.PORT;
 
 let nonAuth = [];
 eval('nonAuth = '+process.env.NONAUTH);
+console.log(nonAuth);
 
 require('./db/db');
 
@@ -67,8 +68,11 @@ app.use(function isAuthenticated(req,res,next) {
 
         lastInd = nextInd;
       } while (lastInd >= 0 && ok === true)
-
-      if (ok && (req.url.replace(/[^//]/g, "").length >= route.replace(/[^//]/g, "").length)) return next()
+      
+      let slashesInReq = req.url.replace(/[^//]/g, "").length;
+      let slashesInRoute = route.replace(/[^//]/g, "").length;
+      if (route[route.length - 1] === "*") slashesInRoute--;
+      if (ok && (slashesInReq >= slashesInRoute)) return next();
     }
   }
 
