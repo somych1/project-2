@@ -6,10 +6,8 @@ const expressLayouts = require('express-ejs-layouts');
 const session = require('express-session');
 require('dotenv').config();
 
-const port = process.env.PORT;
-
-let nonAuth = [];
-eval('nonAuth = '+process.env.NONAUTH);
+const port = 3000;
+const nonAuth = ['/','/login','/register','/logout','/home','/movies/*'];
 
 require('./db/db');
 
@@ -19,10 +17,10 @@ const apiController = require('./controllers/apiController');
 
 // middleware
 app.use(session({
-	secret: process.env.SECRET,
-	resave: false,
-	saveUninitialized: false,
-	cookie: { secure: false }
+  secret: 'showtime',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false }
 }))
 app.use(methodOverride('_method'));
 app.use(express.static('public'))
@@ -33,7 +31,6 @@ app.use(bodyParser.urlencoded({extended: false}))
 
 app.use(function isAuthenticated(req,res,next) {
 
-  //console.log(req);
   let routeInd;
   let globInds = [];
   let lastInd = 0;
@@ -72,23 +69,27 @@ app.use(function isAuthenticated(req,res,next) {
     }
   }
 
-  if (req.method === "DELETE") {
-  	return next();
-  }
-  // CHECK THE USER STORED IN SESSION FOR LOGGEDIN
-  if (req.session.loggedIn) return next();
+   if (req.method === "DELETE") {
+     return next();
+   }
+   // CHECK THE USER STORED IN SESSION FOR LOGGEDIN
+   if (req.session.loggedIn) return next();
 
-  // IF A USER ISN'T LOGGED IN, THEN REDIRECT THEM TO THE LOGIN PAGE
-  req.session.register = false;
-  res.redirect('/');
+   // IF A USER ISN'T LOGGED IN, THEN REDIRECT THEM TO THE LOGIN PAGE
+   req.session.register = false;
+   res.redirect('/');
 })
+ 
 
 app.use('/api',apiController);
 app.use('/',authController);
+
+const movieController = require('./controllers/movieController');
+app.use('/movies', movieController)
 
 
 
 
 app.listen(port, () => {
-	console.log('listening on port ' + port)
+  console.log('listening on port ' + port)
 })
