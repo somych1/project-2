@@ -13,7 +13,7 @@ require('./db/db');
 const authController = require('./controllers/authController');
 
 app.use(session({
-	secret: 'this would be some random string you would store',
+	secret: require('./secrets/secret.js'),
 	resave: false,
 	saveUninitialized: false,
 	cookie: { secure: false }
@@ -50,8 +50,6 @@ app.use(function isAuthenticated(req,res,next) {
 
   // IF A USER ISN'T LOGGED IN, THEN REDIRECT THEM TO THE LOGIN PAGE
   req.session.register = false;
-  console.log(req.get('host'),req.get('origin'));
-  req.session.from = req.get('host');
   res.redirect('/');
 })
 
@@ -67,5 +65,5 @@ app.use('/',authController);
 
 
 app.listen(port, () => {
-	console.log('lictening on port ' + port)
+	console.log('listening on port ' + port)
 })
