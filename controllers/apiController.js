@@ -23,29 +23,58 @@ router.get('/test', async (req,res,next) => {
   }
 })
 
-router.get('/locations/:zip', async (req,res,next) => {
-  console.log(process.env.API_KEY);
+router.get('/search', async (req,res,next) => {
+  
   try {
+    if (req.body.zipcode) {
+      // const suggestion = await request.get({
+      //   url: 'https://api.amctheatres.com/v2/location-suggestions/?query='+req.body.zip,
+      //   headers: {
+      //     'X-AMC-Vendor-Key': process.env.API_KEY
+      //   },
+      //   method: "GET",
+      //   json: true
+      // })
 
-    const suggestion = await request.get({
-      url: 'https://api.amctheatres.com/v2/location-suggestions/?query='+req.params.zip,
-      headers: {
-        'X-AMC-Vendor-Key': process.env.API_KEY
-      },
-      method: "GET",
-      json: true
-    })
+      // const response = await request.get({
+      //   url: suggestion._embedded.suggestions[0]._links["https://api.amctheatres.com/rels/v2/locations"].href,
+      //   headers: {
+      //     'X-AMC-Vendor-Key': process.env.API_KEY
+      //   },
+      //   method: "GET",
+      //   json: true
+      // })
 
-    const response = await request.get({
-      url: suggestion._embedded.suggestions[0]._links["https://api.amctheatres.com/rels/v2/locations"].href,
-      headers: {
-        'X-AMC-Vendor-Key': process.env.API_KEY
-      },
-      method: "GET",
-      json: true
-    })
+      const response = 
 
-    res.send(response);
+    }
+    else if (req.body.name) {
+      // const suggestion = await request.get({
+      //   url: 'https://api.amctheatres.com/v2/location-suggestions/?query='+req.body.zip,
+      //   headers: {
+      //     'X-AMC-Vendor-Key': process.env.API_KEY
+      //   },
+      //   method: "GET",
+      //   json: true
+      // })
+
+      // const response = await request.get({
+      //   url: suggestion._embedded.suggestions[0]._links["https://api.amctheatres.com/rels/v2/locations"].href,
+      //   headers: {
+      //     'X-AMC-Vendor-Key': process.env.API_KEY
+      //   },
+      //   method: "GET",
+      //   json: true
+      // })
+
+      const response = 
+    }
+
+    
+
+    res.render('search.ejs',{ 
+      response: response
+    });
   }
   catch (err) {
     next(err)
