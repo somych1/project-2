@@ -7,7 +7,7 @@ const session = require('express-session');
 require('dotenv').config();
 
 const port = 3000;
-const nonAuth = ['/','/login','/register','/logout','/home','/movies/*'];
+const nonAuth = ['/','/login','/register','/logout','/home','/movies/*', '/movies'];
 
 require('./db/db');
 
