@@ -17,10 +17,6 @@ router.get('/',(req,res) => {
 
 })
 
-router.get('/home',(req,res,next) => {
-	res.send("You made it");
-})
-
 router.get('/logout', (req,res,next) => {
 	req.session.destroy();
 	res.redirect('/');
@@ -39,7 +35,7 @@ router.post('/login', async (req,res,next) => {
 				res.redirect(dest);
 			}
 			else {
-				res.redirect('/home');
+				res.redirect('/movies');
 			}
 		}
 		else {
@@ -80,7 +76,7 @@ router.post('/register', async (req,res,next) => {
 					res.redirect(dest);
 				}
 				else {
-					res.redirect('/home');
+					res.redirect('/movies');
 				}
 			}
 			else {
