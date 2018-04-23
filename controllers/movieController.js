@@ -2,14 +2,17 @@ const express = require('express');
 const router = express.Router();
 const Top = require('../apidata/top.js')
 const Movie = require('../apidata/movie.js')
+const NowPlaying = require('../apidata/movies.js')
 
 router.get('/', async (req, res, next) => {
 	try {
 		const theMovies = Top._embedded.movies;
+		const playingMovies = NowPlaying._embedded.movies;
 		// res.send(moviesArr);
 
 		res.render('movies/index.ejs', {
-			movies: theMovies
+			topMovies: theMovies,
+			nowMovies: playingMovies
 		})
 	} catch(err) {
 		next(err)

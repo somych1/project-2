@@ -18,14 +18,11 @@
 			</form>
 			
 		</div>
-		<div>
-			<nav>
-				<ul class="row justify-content-around">
-					<li><a href="">About</a></li>
-					<li><a href="">Contacts</a></li>
-					<li><a href="">Logout</a></li>
-				</ul>
-			</nav>
+		<div class="links row">
+			<a href="/movies">Home</a>
+			<a href="">Contacts</a>
+			<a href="">Wish List</a>
+			<a href="">Login</a>
 		</div>
 	</header>
 	<section class="container">
@@ -47,14 +44,14 @@
 			<h6><%= movie.synopsis %></h6>
 		</div>
 		<div>
-			
-		</div>
-
-	</section>
-	<video width="500" height="" controls>
+			<video width="100%" height="" controls>
   				<source src="<%= movie.media.trailerMp4 %>" type="video/mp4">
 				Your browser does not support the video tag.
 			</video>
-	<script type="text/javascript" src="/js/movieApp.js"></script>
+			<script type="text/javascript" src="/js/movieApp.js"></script>
+		</div>
+
+	</section>
+	
 </body>
 </html>
