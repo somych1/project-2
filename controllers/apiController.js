@@ -57,6 +57,10 @@ router.get('/search', async (req,res,next) => {
 
 
       const response = require('../apidata/locAndNameSearch.js');
+
+      res.render('search/showtimes.ejs', { 
+        response: response._embedded
+      });
     }
     else if (req.body.zipcode) {
       // const suggestion = await request.get({
@@ -79,6 +83,10 @@ router.get('/search', async (req,res,next) => {
 
       const response = require('../apidata/locSearch.js');
 
+      res.render('search/locations.ejs', { 
+        response: response._embedded
+      });
+
     }
     else if (req.body.name) {
       // const response = await request.get({
@@ -91,13 +99,11 @@ router.get('/search', async (req,res,next) => {
       // })
 
       const response = require('../apidata/nameSearch.js');
+
+      res.render('search/movies.ejs', { 
+        response: response._embedded
+      });
     }
-
-    
-
-    res.render('search.ejs', { 
-      response: response._embedded
-    });
   }
   catch (err) {
     next(err)

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Search Results</title>
+</head>
+<body>
+	<head>
+		<h1>Movies</h1>
+	</head>
+	<main>
+		<% for (let movie of response.movies) { -%>
+			<div class = "card">
+				<div>
+					<img src="<%= movie.media.posterThumbnail %>">
+					<div>
+						<p><%= movie.name %> <%= movie.mpaaRating %></p>
+						<p><%= movie.runTime %> min</p>
+						<p><%= movie.synopsis %></p>	
+					</div>
+				</div>
+			</div>
+		<% } -%>
+	</main>
+</body>
+</html>

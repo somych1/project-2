@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Search Results</title>
+</head>
+<body>
+	<head>
+		<h1>Showtimes</h1>
+	</head>
+	<main>
+		<% for (let showtime of response.showtimes) { -%>
+			<div class = "card">
+				<h3><%= showtime.showDateTimeLocal %> at <!-- showtime.theatre.name --></h3>
+				<div>
+					<img src="<%= showtime.media.posterDynamic %>">
+					<div>
+						<p><%= showtime.movieName %> <%= showtime.mpaaRating %></p>
+						<p><%= showtime.ticketPrices[0].price %>
+						<p><%= showtime.runTime %> min</p>	
+					</div>
+				</div>
+			</div>
+		<% } -%>
+	</main>
+</body>
+</html>
