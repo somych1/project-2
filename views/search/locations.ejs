@@ -8,14 +8,16 @@
 		<h1>Movies at Theatres Near You</h1>
 	</head>
 	<main>
-		<% for (let theatre of response.locations) { -%>
+		<% let theatre;
+		for (let location of response.locations) {
+			theatre = location._embedded.theatre -%>
 			<div class = "card">
-				<h3><%= theatre.name %></h3>
+				<h3>Theatre: <%= theatre.name %></h3>
 				<div>
-					<p><%= theatre.location.addressLine1 %></p>
-					<p><%= theatre.location.addressLine2 %></p>
-					<p><%= theatre.location.city + "," + theatre.location.state + "," + theatre.location.postalCode.slice(0,4) %></p>
-					<p><!-- distance from you --></p>
+					<p> <%= theatre.location.addressLine1 %></p>
+					<p> <%= theatre.location.addressLine2 %></p>
+					<p> <%= theatre.location.city + ", " + theatre.location.state + ", " + theatre.location.postalCode.slice(0,4) %></p>
+					<p> <!--distance from you--></p>
 					<div>
 						<!-- showtimes -->
 					</div>

@@ -10,12 +10,11 @@ const port = process.env.PORT;
 
 let nonAuth = [];
 eval('nonAuth = '+process.env.NONAUTH);
-console.log(nonAuth);
 
 require('./db/db');
 
 const authController = require('./controllers/authController');
-const apiController = require('./controllers/apiController');
+const searchController = require('./controllers/searchController');
 
 
 // middleware
@@ -87,7 +86,7 @@ app.use(function isAuthenticated(req,res,next) {
 })
  
 
-app.use('/api',apiController);
+app.use('/search',searchController);
 app.use('/',authController);
 
 const movieController = require('./controllers/movieController');
