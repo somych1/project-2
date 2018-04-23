@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const Movie = require('../apidata/movie.js');
+
 const User = require('../models/user');
 
 router.get('/',(req,res) => {
@@ -17,13 +17,16 @@ router.get('/',(req,res) => {
 
 })
 
-router.get('/home',(req,res,next) => {
-	res.send("You made it");
-})
-
 router.get('/logout', (req,res,next) => {
 	req.session.destroy();
-	res.redirect('/');
+	if (req.session.from) {
+		let dest = req.session.from;
+		req.session.from = null;
+		res.redirect(dest)
+	}
+	else {
+		res.redirect('/');
+	}
 })
 
 router.post('/login', async (req,res,next) => {
@@ -39,7 +42,7 @@ router.post('/login', async (req,res,next) => {
 				res.redirect(dest);
 			}
 			else {
-				res.redirect('/home');
+				res.redirect('/movies');
 			}
 		}
 		else {
@@ -80,7 +83,7 @@ router.post('/register', async (req,res,next) => {
 					res.redirect(dest);
 				}
 				else {
-					res.redirect('/home');
+					res.redirect('/movies');
 				}
 			}
 			else {
@@ -93,6 +96,19 @@ router.post('/register', async (req,res,next) => {
 	catch (err) {
 		next(err);
 	}
+})
+
+router.get('*',(req,res) => {
+
+	let err = req.session.err;
+	let register = req.session.register;
+	req.session.err = null;
+
+	res.render('auth/login.ejs', {
+		errMessage: err,
+		register: register
+	})
+
 })
 
 router.get('/wish', async (req, res, next) => {

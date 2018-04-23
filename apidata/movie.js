@@ -1,5 +1,3 @@
-//GET /v2/movies/1234
-
 module.exports = {
   "id": 42845,
   "name": "22 Jump Street",
@@ -12,7 +10,7 @@ module.exports = {
   "runTime": 111,
   "score": 0.04536,
   "slug": "21-jump-street-2",
-  "synopsis": "After making their way through high school (twice), big changes are in store for officers Schmidt (Jonah Hill) and Jenko (Channing Tatum) when they go deep undercover at a local college. But when Jenko meets a kindred spirit on the football team, and Schmidt infiltrates the bohemian art major scene, they begin to question their partnership. Now they don't have to just crack the case - they have to figure out if they can have a mature relationship. If these two overgrown adolescents can grow from freshmen into real men, college might be the best thing that ever happened to them. (c) Sony",
+  "synopsis": "Sequel to '21 Jump Street' (USA/2012) directed by Phil Lord and Christopher Miller and starring Channing Tatum, Jonah Hill, and Brie Larson. (Unofficial)",
   "synopsisTagLine": "These undercover cops are going to party like it's their job",
   "releaseDateUtc": "2014-06-13T00:00:00Z",
   "earliestShowingUtc": "0001-01-01T00:00:00Z",

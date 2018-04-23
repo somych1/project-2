@@ -4,19 +4,19 @@
 	<title>Search Results</title>
 </head>
 <body>
-	<head>
+	<header>
 		<h1>Showtimes</h1>
-	</head>
-	<main>
+	</header>
+	<main class="showtimes">
 		<% for (let showtime of response.showtimes) { -%>
-			<div class = "card">
-				<h3><%= showtime.showDateTimeLocal %> at <!-- showtime.theatre.name --></h3>
-				<div>
-					<img src="<%= showtime.media.posterDynamic %>">
-					<div>
-						<p><%= showtime.movieName %> <%= showtime.mpaaRating %></p>
-						<p><%= showtime.ticketPrices[0].price %>
-						<p><%= showtime.runTime %> min</p>	
+			<div class = "card block">
+				<h3 class = "card-title"><%= showtime.showFormattedDateTime %> at <%= showtime.theatre.name %></h3>
+				<div class="contents">
+					<img class="card-img-left" src="<%= showtime.media.posterDynamic %>">
+					<div class="card-body">
+						<p class="card-text"><%= showtime.movieName %> <%= showtime.mpaaRating %></p>
+						<p class="card-text"><%= "$"+showtime.ticketPrices[0].price %>
+						<p class="card-text"><%= showtime.runTime %> min</p>	
 					</div>
 				</div>
 			</div>
