@@ -39,14 +39,20 @@ router.get('/', async (req,res,next) => {
       //   json: true
       // })
 
-      // let url = suggestion._embedded.suggestions[0]._links["https://api.amctheatres.com/rels/v2/locations"].href;
+      //let url = suggestion._embedded.suggestions[0]._links["https://api.amctheatres.com/rels/v2/locations"].href;
       // let lat = url.slice(url.indexOf('lat')+9,url.indexOf('&'));
       // let long = url.slice(url.indexOf('long')+10,url.length - 1);
-      // let today = new Date()
-      // let year = today.getFullYear();
-      // let day = today.getTime();
-      // let month = today.getMonth()+1;
-      // url = "https://api.amctheatres.com/v2/showtimes/views/current-location/"+month+"-"+day+"-"+year+"/"+lat+"/"+long
+      let date;
+      if (!req.query.date) {
+        date = new Date()
+      }
+      else {
+        date = new Date(req.query.date)
+      }
+      let year = date.getFullYear();
+      let day = date.getDate();
+      let month = date.getMonth()+1;
+      // url = "https://api.amctheatres.com/v2/showtimes/views/current-location/"+month+"-"+day+"-"+year+"/"+lat+"/"+long+"?movie="+req.query.name
 
       // const response = await request.get({
       //   url: url,
@@ -63,13 +69,43 @@ router.get('/', async (req,res,next) => {
 
       let theatre;
       let url;
-      let date;
       let weekDay;
-      let month;
-      let day;
       let time;
       let dateStr;
       let showtime;
+      let prevDate;
+
+      console.log(date.toString().slice(0,16),(new Date()).toString());
+
+      if (date.toString().slice(0,15) === (new Date()).toString().slice(0,15)) {
+        dateStr = "Today";
+      }
+      else {
+
+        weekDay = days[date.getDay()];
+
+        day = nth(date.getDate());
+
+        month = months[date.getMonth()];
+
+        dateStr = weekDay+", "+month+" "+day;
+
+        date.setDate(date.getDate()-1);
+        year = date.getFullYear();
+        day = date.getDate();
+        month = date.getMonth()+1;
+        prevDate = month+"-"+day+"-"+year;
+        date.setDate(date.getDate()+1);
+        
+      }
+
+      date.setDate(date.getDate()+1);
+      year = date.getFullYear();
+      day = date.getDate();
+      month = date.getMonth()+1;
+      let nextDate = month+"-"+day+"-"+year;
+
+      let dateObj;
 
       for (let i = 0; i < response._embedded.showtimes.length; i++) {
 
@@ -88,26 +124,22 @@ router.get('/', async (req,res,next) => {
 
         theatre = require('../apidata/theatre.js');
 
-        date = new Date(showtime.showDateTimeLocal);
+        dateObj = new Date(showtime.showDateTimeLocal);
 
-        weekDay = days[date.getDay()];
-
-        day = nth(date.getDate());
-
-        month = months[date.getMonth()];
-
-        time = date.toLocaleTimeString('en-US');
+        time = dateObj.toLocaleTimeString('en-US');
         time = time.slice(0,time.indexOf(':',4)) + time.slice(time.indexOf(':',4)+3);
 
-        dateStr = weekDay+", "+month+" "+day+" "+time;
-
-
-        response._embedded.showtimes[i].showFormattedDateTime = dateStr;
+        response._embedded.showtimes[i].showFormattedTime = time;
         response._embedded.showtimes[i].theatre = theatre;
       }
 
       res.render('search/showtimes.ejs', { 
         response: response._embedded,
+        prevDate: prevDate,
+        nextDate: nextDate,
+        date: dateStr,
+        name: req.query.name,
+        zipcode: req.query.zipcode
       });
     }
     else if (req.query.zipcode) {

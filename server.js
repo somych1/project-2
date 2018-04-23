@@ -8,9 +8,7 @@ require('dotenv').config();
 
 
 const port = process.env.PORT;
-let nonAuth = [];
-eval('nonAuth = '+process.env.NONAUTH);
-
+const nonAuth = ['/','/login','/register','/logout','/home','/search/*','/movies/*'];
 
 require('./db/db');
 
@@ -83,17 +81,16 @@ app.use(function isAuthenticated(req,res,next) {
 
    // IF A USER ISN'T LOGGED IN, THEN REDIRECT THEM TO THE LOGIN PAGE
    req.session.register = false;
+   req.session.from = req.get('Referrer');
    res.redirect('/');
 })
- 
 
 app.use('/search',searchController);
-app.use('/',authController);
 
 const movieController = require('./controllers/movieController');
 app.use('/movies', movieController)
 
-
+app.use('/',authController);
 
 
 app.listen(port, () => {
