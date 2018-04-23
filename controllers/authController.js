@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-
+const Movie = require('../apidata/movie.js');
 const User = require('../models/user');
 
 router.get('/',(req,res) => {
@@ -92,6 +92,17 @@ router.post('/register', async (req,res,next) => {
 	}
 	catch (err) {
 		next(err);
+	}
+})
+
+router.get('/wish', async (req, res, next) => {
+	try {
+		const foundUser = await User.findOne({username: req.session.username})
+		res.render('auth/wish.ejs', {
+			user: foundUser
+		}) 
+	} catch(err){
+		next(err)
 	}
 })
 
