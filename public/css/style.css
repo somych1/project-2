@@ -27,9 +27,19 @@ footer {
   width: 100%;
   height: 100px;
 }
+.login{
+  width: 22%;
+  margin: auto;
+
+}
+#tabs {
+  display: flex;
+  justify-content: space-between;
+
+}
 .highlighted {
-  background-color: blue;
-  color: white;
+  background-color: #AEA8BF;
+  color: #3A3840;
 }
 
 h1 {
@@ -43,8 +53,8 @@ h3, h6 {
   margin: auto 10px;
 } 
 
-h3 {
-  margin: 10px;
+h4 {
+  color: white;
 }
 
 .block {
