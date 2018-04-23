@@ -111,4 +111,16 @@ router.get('*',(req,res) => {
 
 })
 
+
+router.get('/wish', async (req, res, next) => {
+	try {
+		const foundUser = await User.findOne({username: req.session.username})
+		res.render('auth/wish.ejs', {
+			user: foundUser
+		}) 
+	} catch(err){
+		next(err)
+	}
+})
+
 module.exports = router;

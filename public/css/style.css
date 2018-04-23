@@ -6,8 +6,12 @@ body {
   background-attachment: fixed;
   background-position: cover;
 }
-.top-list {
-  justify-content: space-between;
+
+
+.now-playing, .top-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 .movie-header {
   display: flex;
@@ -53,7 +57,7 @@ h4 {
 }
 .block {
   border: 1px solid #AEA8BF;
-  padding: 10px;
+  padding: 10px 4%;
   margin-top: 10px;
   background-color: #3A3840;
 }

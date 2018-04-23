@@ -3,6 +3,8 @@ const router = express.Router();
 const Top = require('../apidata/top.js')
 const Movie = require('../apidata/movie.js')
 const NowPlaying = require('../apidata/movies.js')
+const User = require('../models/user.js')
+const Wish = require('../models/wishModel.js')
 
 router.get('/', async (req, res, next) => {
 	try {
@@ -19,19 +21,6 @@ router.get('/', async (req, res, next) => {
 	}
 	
 });
-
-
-
-// router.get('/:id', async (req, res, next) => {
-// 	try {
-// 		const moviesArr = Top._embedded.movies;
-// 		const foundMovie = 
-// 		res.send(foundMovie)
-// 	} catch (err) {
-// 		next(err)
-// 	}
-// })
-
 
 
 router.get('/:id',(req,res) => {
@@ -52,7 +41,22 @@ router.get('/:id',(req,res) => {
 })
 
 
+// post
+router.post('/', async (req,res, next) =>{
 
+	console.log(req.query)	
+
+	try{
+		const foundUser = await User.findOne({username: req.session.username})
+		const newWish = await Wish.create(req.query)
+		foundUser.wishlist.push(newWish)
+		await foundUser.save()
+		res.redirect('back')
+
+	} catch(err) {
+		next(err)
+	}
+})
 
 
 

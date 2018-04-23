@@ -44,7 +44,11 @@
 				<h6>Run time: <%= movie.runTime %></h6><br>
 				<h6>Release Date: <%= movie.releaseDateUtc %></h6>
 			</div>
-			
+			<div>
+				<form action="/movies?id=<%= movie.id%>&name=<%=movie.name%>&poster=<%= movie.media.posterStandard%>&link=<%= movie.links.self.href%>" method="POST">
+					<button>ADD</button>
+				</form>
+			</div>
 		</div>
 		<div>
 			<h6><%= movie.synopsis %></h6>
