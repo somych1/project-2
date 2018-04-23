@@ -1,6 +1,6 @@
 // GET  /v2/movies/views/now-playing
 
-{
+module.exports = {
   "pageSize": 10,
   "pageNumber": 1,
   "count": 10,

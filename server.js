@@ -6,11 +6,12 @@ const expressLayouts = require('express-ejs-layouts');
 const session = require('express-session');
 require('dotenv').config();
 
-const port = process.env.PORT;
 
+const port = process.env.PORT;
 let nonAuth = [];
 eval('nonAuth = '+process.env.NONAUTH);
 console.log(nonAuth);
+
 
 require('./db/db');
 

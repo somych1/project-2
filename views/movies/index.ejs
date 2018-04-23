@@ -8,36 +8,46 @@
 		</script>
 
 </head>
-<body>
-	<header class="movie-header container">
-		<div class="search">
-			<form action="/api/search" method="GET">
-				<input type="text" name="name" placeholder="name" />
-				<input type="text" name="title" placeholder="zipcode">
-				<button type="submit">Search</button>
-			</form>
-			
+<body class="container">
+
+	<header class="container block">
+		<div class="container text-center">
+			<h1>Showtimes</h1>
 		</div>
-		<div>
-			<nav>
-				<ul class="row justify-content-around">
-					<li><a href="">About</a></li>
-					<li><a href="">Contacts</a></li>
-					<li><a href="">Logout</a></li>
-				</ul>
-			</nav>
+		<div class="container movie-header">
+			<div class="search">
+				<form action="/api/search" method="GET">
+					<input type="text" name="name" placeholder="name" />
+					<input type="text" name="title" placeholder="zipcode">
+					<button type="submit">Search</button>
+				</form>
+				
+			</div>
+			<div class="links row">
+				<a href="/movie">Home</a>
+				<a href="">Contacts</a>
+				<a href="/movies/wish">Wish List</a>
+				<a href="/login">Login</a>
+			</div>
 		</div>
 	</header>
-	<section class="container">
-		<div class="top-list container">
-			<!-- list of movies with images -->
-			<% for(let i = 0; i < movie.length; i++) { %>
-				<a href="/movie/<%= movie[i].id%>">
-					<img src="<%= movie[i].media.posterStandard %>">
+	
+	<section class="container col block">
+		<h3>Top 10</h3>
+		<div class="top-list">
+			<!-- list of top movies with images -->
+			<% for(let i = 0; i < topMovies.length; i++) { %>
+				<a href="/movies/<%= topMovies[i].id%>">
+					<img src="<%= topMovies[i].media.posterStandard %>">
 				</a>
-
 			<% } %>
-
+		</div>
+		<h3>Now Playing</h3>
+		<div class="now-playing">
+			<% for(let i = 0; i < nowMovies.length; i++) { %>
+				<a href="/movies/<%= nowMovies[i].id%>">
+					<img src="<%= nowMovies[i].media.posterStandard %>">
+			<% } %>
 		</div>
 	</section>
 
