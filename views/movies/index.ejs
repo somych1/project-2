@@ -13,8 +13,7 @@
 
 	<header class="container block">
 		<div class="container text-center">
-			<h1>Showtimes</h1>
-
+			<h1>AMC Showtimes</h1>
 		</div>
 		<div class="container movie-header">
 			<div class="search">
@@ -49,10 +48,13 @@
 			<% for(let i = 0; i < nowMovies.length; i++) { %>
 				<a href="/movies/<%= nowMovies[i].id%>">
 					<img src="<%= nowMovies[i].media.posterStandard %>">
+				</a>
 			<% } %>
 		</div>
 	</section>
-
+	<footer class="block">
+		
+	</footer>
 	<script type="text/javascript" src="/js/movieApp.js"></script>
 </body>
 </html>
