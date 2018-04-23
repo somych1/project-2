@@ -3,15 +3,33 @@
 <head>
 	<title>Search Results</title>
 </head>
-<body>
-	<head>
-		<h1>Movies at Theatres Near You</h1>
-	</head>
+<body class="container">
+	<header class="container block">
+		<div class="container text-center">
+			<h1>AMC Theatres</h1>
+		</div>
+		<div class="container movie-header">
+			<div class="search">
+				<form action="/search" method="GET">
+					<input type="text" name="name" placeholder="name" />
+					<input type="text" name="zipcode" placeholder="zipcode">
+					<button type="submit">Search</button>
+				</form>
+				
+			</div>
+			<div class="links row">
+				<a href="/movie">Home</a>
+				<a href="">Contacts</a>
+				<a href="/movies/wish">Wish List</a>
+				<a href="/login">Login</a>
+			</div>
+		</div>
+	</header>
 	<main>
 		<% let theatre;
 		for (let location of response.locations) {
 			theatre = location._embedded.theatre -%>
-			<div class = "card">
+			<div class = "card block">
 				<h3>Theatre: <%= theatre.name %></h3>
 				<div>
 					<p> <%= theatre.location.addressLine1 %></p>
@@ -27,3 +45,4 @@
 	</main>
 </body>
 </html>
+

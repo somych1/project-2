@@ -3,18 +3,43 @@
 <head>
 	<title>Search Results</title>
 </head>
-<body>
-	<header>
-		<h1>Showtimes</h1>
+<body class="container">
+	<header class="container block">
+		<div class="container text-center">
+			<h1>AMC Showtimes</h1>
+		</div>
+		<div class="container movie-header">
+			<div class="search">
+				<form action="/search" method="GET">
+					<input type="text" name="name" placeholder="name" />
+					<input type="text" name="zipcode" placeholder="zipcode">
+					<button type="submit">Search</button>
+				</form>
+				
+			</div>
+			<div class="links row">
+				<a href="/movie">Home</a>
+				<a href="">Contacts</a>
+				<a href="/movies/wish">Wish List</a>
+				<a href="/login">Login</a>
+			</div>
+		</div>
 	</header>
-	<main class="showtimes">
+	<main class="search">
+		<div class="container block text-white">
+			<% if (prevDate) { %>
+				<a class="btn" href="/search?name=<%= name %>&zipcode=<%= zipcode %>&date=<%= prevDate %>">Previous date</a>
+			<%}%>
+			<p><%= date %></p>
+			<a class="btn" href="/search?name=<%= name %>&zipcode=<%= zipcode %>&date=<%= nextDate %>">Next date</a>
+		</div>
 		<% for (let showtime of response.showtimes) { -%>
 			<div class = "card block">
-				<h3 class = "card-title"><%= showtime.showFormattedDateTime %> at <%= showtime.theatre.name %></h3>
+				<h2 class = "card-title"><%= showtime.showFormattedTime %> at <%= showtime.theatre.name %></h2>
 				<div class="contents">
 					<img class="card-img-left" src="<%= showtime.media.posterDynamic %>">
 					<div class="card-body">
-						<p class="card-text"><%= showtime.movieName %> <%= showtime.mpaaRating %></p>
+						<p class="card-text"><%= showtime.movieName %> <span class="rating"><%= showtime.mpaaRating %></span></p>
 						<p class="card-text"><%= "$"+showtime.ticketPrices[0].price %>
 						<p class="card-text"><%= showtime.runTime %> min</p>	
 					</div>

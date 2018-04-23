@@ -9,6 +9,27 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 </head>
 <body>
+	<header class="container block">
+		<div class="container text-center">
+			<h1>AMC Theatres</h1>
+		</div>
+		<div class="container movie-header">
+			<div class="search">
+				<form action="/search" method="GET">
+					<input type="text" name="name" placeholder="name" />
+					<input type="text" name="zipcode" placeholder="zipcode">
+					<button type="submit">Search</button>
+				</form>
+				
+			</div>
+			<div class="links row">
+				<a href="/movie">Home</a>
+				<a href="">Contacts</a>
+				<a href="/movies/wish">Wish List</a>
+				<a href="/login">Login</a>
+			</div>
+		</div>
+	</header>
 	<%- body %>
 	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
