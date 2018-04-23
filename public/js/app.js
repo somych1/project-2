@@ -1,5 +1,5 @@
-$('#tabs h1').on('click',(e) => {
-	let tabs = $('#tabs h1');
+$('#tabs h4').on('click',(e) => {
+	let tabs = $('#tabs h4');
 	let tab;
 	for (let i = 0; i < tabs.length; i++) {
 		tab = tabs.eq(i);
