@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-//const Movie = require('./movie');
+const Wish = require('./wishModel');
 
 module.exports = mongoose.model('User',new mongoose.Schema({
 	username: {
@@ -9,5 +9,5 @@ module.exports = mongoose.model('User',new mongoose.Schema({
 	},
 	password: String,
 	preferredZip: String,
-	//wishlist: [Movie.schema]
+	wishlist: [Wish.schema]
 }))
