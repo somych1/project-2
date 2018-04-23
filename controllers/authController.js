@@ -19,7 +19,14 @@ router.get('/',(req,res) => {
 
 router.get('/logout', (req,res,next) => {
 	req.session.destroy();
-	res.redirect('/');
+	if (req.session.from) {
+		let dest = req.session.from;
+		req.session.from = null;
+		res.redirect(dest)
+	}
+	else {
+		res.redirect('/');
+	}
 })
 
 router.post('/login', async (req,res,next) => {
@@ -89,6 +96,19 @@ router.post('/register', async (req,res,next) => {
 	catch (err) {
 		next(err);
 	}
+})
+
+router.get('*',(req,res) => {
+
+	let err = req.session.err;
+	let register = req.session.register;
+	req.session.err = null;
+
+	res.render('auth/login.ejs', {
+		errMessage: err,
+		register: register
+	})
+
 })
 
 module.exports = router;
