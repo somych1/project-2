@@ -6,6 +6,11 @@ const NowPlaying = require('../apidata/movies.js')
 const User = require('../models/user.js')
 const Wish = require('../models/wishModel.js')
 
+
+router.get('/contacts', (req, res) => {
+	res.render('about/contacts.ejs')	
+})
+
 router.get('/', async (req, res, next) => {
 	try {
 		const theMovies = Top._embedded.movies;
@@ -57,8 +62,6 @@ router.post('/', async (req,res, next) =>{
 		next(err)
 	}
 })
-
-
 
 
 
