@@ -9,52 +9,34 @@
 
 </head>
 
-<body class="container">
-
-	<header class="container block">
-		<div class="container text-center">
-			<h1>AMC Showtimes</h1>
-		</div>
-		<div class="container movie-header">
-			<div class="search">
-				<form action="/search" method="GET">
-					<input type="text" name="name" placeholder="name" />
-					<input type="text" name="zipcode" placeholder="zipcode">
-					<button type="submit">Search</button>
-				</form>
-				
-			</div>
-			<div class="links row">
-				<a href="/movie">Home</a>
-				<a href="">Contacts</a>
-				<a href="/movies/wish">Wish List</a>
-				<a href="/login">Login</a>
-			</div>
-		</div>
+<body>
+	<header class="text-center">
+		<h1>AMC Movies</h1>
 	</header>
-	
-	<section class="container col block">
-		<h3>Top 10</h3>
-		<div class="top-list">
-			<!-- list of top movies with images -->
-			<% for(let i = 0; i < topMovies.length; i++) { %>
-				<a href="/movies/<%= topMovies[i].id%>">
-					<img src="<%= topMovies[i].media.posterStandard %>">
-				</a>
-			<% } %>
-		</div>
-		<h3>Now Playing</h3>
-		<div class="now-playing">
-			<% for(let i = 0; i < nowMovies.length; i++) { %>
-				<a href="/movies/<%= nowMovies[i].id%>">
-					<img src="<%= nowMovies[i].media.posterStandard %>">
-				</a>
-			<% } %>
-		</div>
-	</section>
-	<footer class="block">
-		
-	</footer>
+	<main class="container">
+		<section class="container col block">
+			<h3>Top 10</h3>
+			<div class="top-list">
+				<!-- list of top movies with images -->
+				<% for(let i = 0; i < topMovies.length; i++) { %>
+					<a href="/movies/<%= topMovies[i].id%>">
+						<img src="<%= topMovies[i].media.posterStandard %>">
+					</a>
+				<% } %>
+			</div>
+			<h3>Now Playing</h3>
+			<div class="now-playing">
+				<% for(let i = 0; i < nowMovies.length; i++) { %>
+					<a href="/movies/<%= nowMovies[i].id%>">
+						<img src="<%= nowMovies[i].media.posterStandard %>">
+					</a>
+				<% } %>
+			</div>
+		</section>
+		<footer class="block">
+			
+		</footer>
+	</main>
 	<script type="text/javascript" src="/js/movieApp.js"></script>
 </body>
 </html>
