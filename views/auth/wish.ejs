@@ -7,7 +7,7 @@
 		</script>
 </head>
 <body class="container">
-	<header class="container block">
+	<!-- <header class="container block">
 		<div class="container text-center">
 			<h1>AMC Showtimes</h1>
 		</div>
@@ -27,15 +27,21 @@
 				<a href="/login">Login</a>
 			</div>
 		</div>
-	</header>
-<!-- 	<section>
+	</header> -->
+ 	<section>
 		<h1><%= user.username%>'s Wish List</h1>
-		<% for(let i = 0; i < user.wishlist.length; i++) { %>
-			<div>
-				<a href="/movies/<%= user.wishlist[i].id%>">
-					<img src="<%= user.wishlist[i].media.posterStandard %>">
+		<% for(let i = 0; i < wishlist.length; i++) { %>
+			<div class = "card block">
+				<div class="contents">
+					<img class="card-img-left" src="<%= wishlist[i].media.posterStandard %>">
+					<div class="card-body">
+						<p class="card-text"><span class="title"><%= wishlist[i].name %></span> <span class="rating"><%= wishlist[i].mpaaRating %></span></p>
+						<p class="card-text"><%= wishlist[i].runTime %> min</p>
+						<p class="card-text synopsis"><%= wishlist[i].synopsis %></p>	
+					</div>
+				</div>
 			</div>
 		<% } %>
-	</section> -->
+	</section>
 </body>
 </html>
