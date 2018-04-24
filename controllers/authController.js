@@ -100,9 +100,29 @@ router.post('/register', async (req,res,next) => {
 
 router.get('/wish', async (req, res, next) => {
 	try {
+		
 		const foundUser = await User.findOne({username: req.session.username})
+		
+		const wishlist = [];
+		
+		for (let movie of foundUser.wishlist) {
+		const Movie = require('../apidata/movie.js');
+
+	  	// const Movie = await Movie.get({
+    //     	url: 'https://api.amctheatres.com/v2/movies/'+movie.id,
+    //     	headers: {
+    //       		'X-AMC-Vendor-Key': process.env.API_KEY
+    //     	},
+    //     	method: "GET",
+    //     	json: true
+    //   	})
+			response = Movie
+			wishlist.push(response);
+		}
+
 		res.render('auth/wish.ejs', {
-			user: foundUser
+			user: foundUser,
+			wishlist: wishlist
 		}) 
 	} catch(err){
 		next(err)
@@ -121,6 +141,5 @@ router.get('*',(req,res) => {
 	})
 
 })
-
 
 module.exports = router;
