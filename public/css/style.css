@@ -41,8 +41,11 @@ img {
   display: none !important;
 }
 /* Home page */
-.top-list {
-  justify-content: space-between;
+.top-list,
+.now-playing {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 /* Banner */
 header {

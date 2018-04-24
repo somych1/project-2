@@ -9,29 +9,34 @@
 
 </head>
 
-<body class="container">
-	<section class="container col block">
-		<h3>Top 10</h3>
-		<div class="top-list">
-			<!-- list of top movies with images -->
-			<% for(let i = 0; i < topMovies.length; i++) { %>
-				<a href="/movies/<%= topMovies[i].id%>">
-					<img src="<%= topMovies[i].media.posterStandard %>">
-				</a>
-			<% } %>
-		</div>
-		<h3>Now Playing</h3>
-		<div class="now-playing">
-			<% for(let i = 0; i < nowMovies.length; i++) { %>
-				<a href="/movies/<%= nowMovies[i].id%>">
-					<img src="<%= nowMovies[i].media.posterStandard %>">
-				</a>
-			<% } %>
-		</div>
-	</section>
-	<footer class="block">
-		
-	</footer>
+<body>
+	<header class="text-center">
+		<h1>AMC Movies</h1>
+	</header>
+	<main class="container">
+		<section class="container col block">
+			<h3>Top 10</h3>
+			<div class="top-list">
+				<!-- list of top movies with images -->
+				<% for(let i = 0; i < topMovies.length; i++) { %>
+					<a href="/movies/<%= topMovies[i].id%>">
+						<img src="<%= topMovies[i].media.posterStandard %>">
+					</a>
+				<% } %>
+			</div>
+			<h3>Now Playing</h3>
+			<div class="now-playing">
+				<% for(let i = 0; i < nowMovies.length; i++) { %>
+					<a href="/movies/<%= nowMovies[i].id%>">
+						<img src="<%= nowMovies[i].media.posterStandard %>">
+					</a>
+				<% } %>
+			</div>
+		</section>
+		<footer class="block">
+			
+		</footer>
+	</main>
 	<script type="text/javascript" src="/js/movieApp.js"></script>
 </body>
 </html>
