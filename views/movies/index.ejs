@@ -16,7 +16,7 @@
 	<main class="container">
 		<section class="container col block">
 			<h3>Top 10</h3>
-			<div class="top-list">
+			<div class="index-list">
 				<!-- list of top movies with images -->
 				<% for(let i = 0; i < topMovies.length; i++) { %>
 					<a href="/movies/<%= topMovies[i].id%>">
@@ -25,10 +25,18 @@
 				<% } %>
 			</div>
 			<h3>Now Playing</h3>
-			<div class="now-playing">
+			<div class="index-list">
 				<% for(let i = 0; i < nowMovies.length; i++) { %>
 					<a href="/movies/<%= nowMovies[i].id%>">
 						<img src="<%= nowMovies[i].media.posterStandard %>">
+					</a>
+				<% } %>
+			</div>
+			<h3>Coming Soon</h3>
+			<div class="index-list">
+				<% for(let i = 0; i < coming.length; i++) { %>
+					<a href="/movies/<%= coming[i].id%>">
+						<img src="<%= coming[i].media.posterStandard %>">
 					</a>
 				<% } %>
 			</div>

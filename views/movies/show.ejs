@@ -34,10 +34,7 @@
 			<h6><%= movie.synopsis %></h6>
 		</div>
 		<div>
-			<video width="100%" height="" controls>
-  				<source src="<%= movie.media.trailerMp4 %>" type="video/mp4">
-				Your browser does not support the video tag.
-			</video>
+			<video width="100%" src="<%= movie.media.trailerHd %>" controls></video>
 			<script type="text/javascript" src="/js/movieApp.js"></script>
 		</div>
 
