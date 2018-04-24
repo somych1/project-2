@@ -3,8 +3,13 @@
 <head>
 	<title>Search Results</title>
 </head>
-<body class="container">
-	<main class="search">
+<body>
+	<header class="text-center">
+		<h1>
+			AMC Showtimes
+		</h1>
+	</header>
+	<main class="container search">
 		<div class="container block text-white">
 			<% if (prevDate) { %>
 				<a class="btn" href="/search?name=<%= name %>&zipcode=<%= zipcode %>&date=<%= prevDate %>">Previous date</a>

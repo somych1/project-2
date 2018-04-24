@@ -8,9 +8,11 @@
 		</script>
 
 </head>
-<body class="container">
+<body>
+	<header class="text-center">
+		<h1><%= movie.sortableName %></h1>
+	</header>
 	<section class="container block">
-		<h3><%= movie.sortableName %></h3>
 		<div class="d-flex film-container">
 			<div>
 				<img src="<%= movie.media.posterStandard %>">
