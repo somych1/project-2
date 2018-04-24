@@ -25,7 +25,7 @@
 							<div class = "card showtime">
 								<h5 class = "card-title"><%= showtime.showFormattedDate %></h5>
 								<div class="contents">
-									<img class="card-img-left" src="<%= showtime.media.posterDynamic %>">
+									<a href="/movies/<%= showtime.movieId%>"><img class="card-img-left" src="<%= showtime.media.posterDynamic %>"></a>
 									<div class="card-body">
 										<p class="card-text"><%= showtime.movieName %> <span class="rating"><%= showtime.mpaaRating %></span></p>
 										<p class="card-text"><%= "$"+showtime.ticketPrices[0].price %>
