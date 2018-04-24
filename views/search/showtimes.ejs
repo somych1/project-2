@@ -3,8 +3,13 @@
 <head>
 	<title>Search Results</title>
 </head>
-<body class="container">
-	<main class="search">
+<body>
+	<header class="text-center">
+		<h1>
+			AMC Showtimes
+		</h1>
+	</header>
+	<main class="container search">
 		<div class="container block text-white">
 			<% if (prevDate) { %>
 				<a class="btn" href="/search?name=<%= name %>&zipcode=<%= zipcode %>&date=<%= prevDate %>">Previous date</a>
@@ -16,7 +21,7 @@
 			<div class = "card block">
 				<h2 class = "card-title"><%= showtime.showFormattedTime %> at <%= showtime.theatre.name %></h2>
 				<div class="contents">
-					<img class="card-img-left" src="<%= showtime.media.posterDynamic %>">
+					<a href="/movies/<%= showtime.movieId%>"><img class="card-img-left" src="<%= showtime.media.posterDynamic %>"></a>
 					<div class="card-body">
 						<p class="card-text"><%= showtime.movieName %> <span class="rating"><%= showtime.mpaaRating %></span></p>
 						<p class="card-text"><%= "$"+showtime.ticketPrices[0].price %>
