@@ -48,10 +48,12 @@ img {
 }
 /* Banner */
 header {
+  width: 100%;
   margin-top: 0;
   padding: 0;
   border: none;
   background-color: #71002F;
+
 }
 header h1,
 header a {
@@ -64,6 +66,7 @@ header a {
   width: 100%;
   flex-wrap: wrap;
   align-items: center;
+
 }
 .movie-header .search-boxes input {
   width: 40%;
