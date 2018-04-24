@@ -21,3 +21,19 @@ $('select').on('change',(e) => {
 		$('input[name="newAuthor"]').remove();
 	}
 })
+
+$('.showtime-controls').on('click',(e) => {
+
+	let target = $(e.currentTarget)
+	let id = target.attr('id');
+	let text = "Showtimes for this theatre ";
+
+	if (target.html() === text+'▼') {
+		target.html(text+'&#9650;');
+	}
+	else {
+		target.html(text+'&#9660;');
+	}
+
+	$('#showtimes'+id).toggleClass('hidden');
+})
