@@ -8,7 +8,7 @@ require('dotenv').config();
 
 
 const port = process.env.PORT;
-const nonAuth = ['/','/login','/register','/logout','/home','/search/*','/movies/*', '/wish', '/contacts'];
+const nonAuth = ['/','/login','/register','/logout','/search/*','/movies/*','/contacts'];
 
 require('./db/db');
 

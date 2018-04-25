@@ -9,7 +9,11 @@ const ComingSoon = require('../apidata/comingSoon.js')
 
 
 router.get('/contacts', (req, res) => {
-	res.render('about/contacts.ejs')	
+	res.render('about/contacts.ejs',{
+		currLoc: req.session.currLoc,
+      	login: false,
+      	loggedIn: req.session.loggedIn,
+	})	
 })
 
 router.get('/', async (req, res, next) => {
@@ -22,8 +26,8 @@ router.get('/', async (req, res, next) => {
 			topMovies: theMovies,
 			nowMovies: playingMovies,
 			currLoc: req.session.currLoc,
-      login: false,
-      loggedIn: req.session.loggedIn,
+      		login: false,
+      		loggedIn: req.session.loggedIn,
 			coming: coming
 		})
 	} catch(err) {
