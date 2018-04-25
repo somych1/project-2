@@ -1,3 +1,4 @@
+//Switch between login and register tabs on login page
 $('#tabs h4').on('click',(e) => {
 	let tabs = $('#tabs h4');
 	let tab;
@@ -13,16 +14,7 @@ $('#tabs h4').on('click',(e) => {
 	$('#error').remove();
 })
 
-$('select').on('change',(e) => {
-	if ($(e.currentTarget)[0].value === "new") {
-		$('#author-select').append($('<label for="newAuthor">Author Name:</label>'))
-		$('#author-select').append($('<input id="newAuthor" name="newAuthor">'))
-	}
-	else {
-		$('input[name="newAuthor"]').remove();
-	}
-})
-
+//Show/hide showtimes for a theatre
 $('.showtime-controls').on('click',(e) => {
 
 	let target = $(e.currentTarget)
@@ -39,6 +31,7 @@ $('.showtime-controls').on('click',(e) => {
 	$('#showtimes'+id).toggleClass('hidden');
 })
 
+//Load current location
 function getLocation() {
 	if ($('#zipcode input').val() === "Using current location") {
 		$('#zipcode input').val('');

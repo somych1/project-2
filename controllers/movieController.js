@@ -80,8 +80,6 @@ router.get('/:id', async (req,res, next) => {
 // post
 router.post('/', async (req,res, next) =>{
 
-	console.log(req.query)	
-
 	try{
 		const foundUser = await User.findOne({username: req.session.username})
 		const newWish = await Wish.create(req.query)

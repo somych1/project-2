@@ -9,44 +9,48 @@ router.get('/',(req,res) => {
 
  	let err;
  	let register;
- 	let prevPage;
+ 	let destPage;
+ 	let host;
+ 	if (req.get('referer')) {
+ 		host = req.get('referer');
+ 		host = host.slice(0,host.indexOf('//')+2)+req.get('host');
+ 	}
 
- 	if (req.session) {
-		err = req.session.err;
-		register = req.session.register;
-		req.session.err = null;
+	err = req.session.err;
+	register = req.session.register;
+	req.session.err = null;
+
+	if (req.session && req.session.dest && req.session.dest !== '/' && req.session.dest !== '/logout') {
+		destPage = req.session.dest;
 	}
-
-	if (req.get('referer') !== "http://localhost:3000/") {
-		prevPage = req.get('referer')
+	else if (req.get('referer') !== host+'/' && req.get('referer') !== host+'/logout') {
+		destPage = req.get('referer');
 	}
 
 	res.render('auth/login.ejs', {
 		errMessage: err,
 		register: register,
 		login: true,
-		prevPage: prevPage
+		destPage: destPage
 	})
 
 })
 
 router.get('/logout', (req,res,next) => {
 	req.session.destroy();
-	
 	res.redirect('back');
 })
 
 router.post('/login', async (req,res,next) => {
 	try {
-		console.log(req.body.from,"here");
 
 		const user = await User.findOne({ username: req.body.username })
 		
 		if (user && bcrypt.compareSync(req.body.password,user.password)) {
 			req.session.loggedIn = true;
 			req.session.username = req.body.username;
-			if (req.body.from) {
-				res.redirect(req.body.from);
+			if (req.body.dest) {
+				res.redirect(req.body.dest);
 			}
 			else {
 				res.redirect('/movies');
@@ -67,8 +71,8 @@ router.post('/login', async (req,res,next) => {
 router.post('/register', async (req,res,next) => {
 
 	try {
-		let dest = req.body.from;
-		req.body.from = undefined;
+		let dest = req.body.dest;
+		req.body.dest = undefined;
 
 		let { password } = req.body;
 		password = bcrypt.hashSync(password,bcrypt.genSaltSync(10))
