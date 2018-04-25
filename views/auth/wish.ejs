@@ -7,7 +7,10 @@
 				<div class="card-body">
 					<p class="card-text"><span class="title"><%= wishlist[i].name %></span> <span class="rating"><%= wishlist[i].mpaaRating %></span></p>
 					<p class="card-text"><%= wishlist[i].runTime %> min</p>
-					<p class="card-text synopsis"><%= wishlist[i].synopsis %></p>	
+					<p class="card-text synopsis"><%= wishlist[i].synopsis %></p>
+					<form action="/wish/<%= wishlist[i].id%>?_method=DELETE" method="POST">
+						<button>Delete</button>
+					</form>
 				</div>
 			</div>
 		</div>

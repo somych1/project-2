@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 
 const User = require('../models/user');
+const Wish =require('../models/wishModel')
 
 router.get('/',(req,res) => {
 
@@ -137,6 +138,25 @@ router.get('/wish', async (req, res, next) => {
 		next(err)
 	}
 }) 
+
+// delete button
+router.delete('/wish/:movieId', async (req, res, next) => {
+	try{	
+		const deletedWish = await Wish.findOneAndRemove({'movieId': req.params.movieId});
+		const foundUser = await User.findOne({'wishlist.movieId': req.params.movieId})
+		console.log(req.params.movieId)
+		console.log(deletedWish)
+		console.log('------------------------')
+		console.log(foundUser)
+		foundUser.wishlist.splice(foundUser.wishlist.indexOf(deletedWish),1)
+		foundUser.save((err, data) => {
+			
+		});
+		res.redirect('/wish')
+	} catch (err) {
+		next(err)
+	}
+})
 
 router.get('*',(req,res) => {
 	res.redirect('/');
