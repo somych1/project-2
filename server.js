@@ -8,7 +8,7 @@ require('dotenv').config();
 
 
 const port = process.env.PORT;
-const nonAuth = ['/','/login','/register','/logout','/search/*','/movies/*','/contacts'];
+const nonAuth = [{route: '/'},{route: '/login'},{route: '/register'},{route: '/logout'},{route: '/login',method: 'POST'},{route: '/register', method: 'POST'},{route: '/search/*'},{route: '/movies/*'},{route: '/contacts'}];
 
 require('./db/db');
 
@@ -32,21 +32,31 @@ app.use(bodyParser.urlencoded({extended: false}))
 
 app.use(function isAuthenticated(req,res,next) {
 
+  // CHECK THE USER STORED IN SESSION FOR LOGGEDIN
+  if (req.session.loggedIn) return next();
+
   let routeInd;
   let globInds = [];
   let lastInd = 0;
   let nextInd = 0;
   let ok = true;
   let searchInd = 0;
-  for (let route of nonAuth) {
+  let route;
+  let method;
+  for (let whitelist of nonAuth) {
+
+    route = whitelist.route;
+    method = whitelist.method;
 
     searchInd = 0;
     lastInd = 0;
 
-  	if (req.url === route) {
-  		return next();
+    if (!method) method = "GET";
+
+  	if (req.url === route && req.method === method) {
+      return next();
   	}
-    else if (route.indexOf('*') >= 0) {
+    else if (route.indexOf('*') >= 0 && req.method === method) {
       do {
         if (lastInd === 0) searchInd = 0;
         else searchInd = lastInd+2;
@@ -73,15 +83,10 @@ app.use(function isAuthenticated(req,res,next) {
     }
   }
 
- if (req.method === "DELETE") {
-   return next();
- }
- // CHECK THE USER STORED IN SESSION FOR LOGGEDIN
- if (req.session.loggedIn) return next();
-
  // IF A USER ISN'T LOGGED IN, THEN REDIRECT THEM TO THE LOGIN PAGE
  req.session.register = false;
- req.session.from = req.get('referer');
+ req.session.err = "You must login to take that action."
+ if (req.method === "GET" ) req.session.dest = req.url;
  res.redirect('/');
 })
 
