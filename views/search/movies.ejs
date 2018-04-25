@@ -1,25 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Search Results</title>
-</head>
-<body>
-	<header class="text-center">
-		<h1>AMC Movies</h1>
-	</header>
-	<main class="container search">
-		<% for (let movie of response.movies) { -%>
-			<div class = "card block">
-				<div class="contents">
-					<a href="/movies/<%= movie.id %>"><img class="card-img-left" src="<%= movie.media.posterStandard %>"></a>
-					<div class="card-body">
-						<p class="card-text"><span class="title"><%= movie.name %></span> <span class="rating"><%= movie.mpaaRating %></span></p>
-						<p class="card-text"><%= movie.runTime %> min</p>
-						<p class="card-text synopsis"><%= movie.synopsis %></p>	
-					</div>
+<header class="text-center">
+	<h1>AMC Movies</h1>
+</header>
+<main class="container search">
+	<% for (let movie of response.movies) { -%>
+		<div class = "card block">
+			<div class="contents">
+				<a href="/movies/<%= movie.id %>"><img class="card-img-left" src="<%= movie.media.posterStandard %>"></a>
+				<div class="card-body">
+					<p class="card-text"><span class="title"><%= movie.name %></span> <span class="rating"><%= movie.mpaaRating %></span></p>
+					<p class="card-text"><%= movie.runTime %> min</p>
+					<p class="card-text synopsis"><%= movie.synopsis %></p>	
 				</div>
 			</div>
-		<% } -%>
-	</main>
-</body>
-</html>
+		</div>
+	<% } -%>
+</main>

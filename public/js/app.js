@@ -7,7 +7,8 @@ $('#tabs h4').on('click',(e) => {
 	}
 	let currTab = $(e.currentTarget)
 	currTab.addClass('highlighted');
-	let action = "/"+currTab.text().toLowerCase();
+	let action = $('form').attr('action')
+	action = "/"+currTab.text().toLowerCase()
 	$('form').attr('action',action);
 	$('#error').remove();
 })
@@ -37,3 +38,59 @@ $('.showtime-controls').on('click',(e) => {
 
 	$('#showtimes'+id).toggleClass('hidden');
 })
+
+function getLocation() {
+	if ($('#zipcode input').val() === "Using current location") {
+		$('#zipcode input').val('');
+	}
+
+	if ($('input[name="lat"]').val() && $('input[name="long"]').val()) {
+		enablePosition();
+	}
+	
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(setPosition)
+	}
+}
+
+function setPosition(position) {
+
+	let lat = $('input[name="lat"]');
+	lat.val(position.coords.latitude);
+	let long = $('input[name="long"]');
+	long.val(position.coords.longitude);
+
+	$('#zipcode a').off('click');
+	enablePosition();
+}
+
+function enablePosition() {
+	$('#zipcode a').on('click',useCurrentLoc)
+	$('#zipcode a').removeClass('hidden');
+}
+
+function useCurrentLoc(e) {
+
+	let useCurr = $('input[name="useCurr"]');
+	useCurr.val('true');
+
+	$(e.currentTarget).off('click');
+	$(e.currentTarget).on('click',useOtherLoc);
+	$(e.currentTarget).text('Use a different location');
+
+	$('#zipcode input[name="zipcode"]').val('Using current location');
+	$('#zipcode input[name="zipcode"]').prop('disabled',true);
+}
+
+function useOtherLoc(e) {
+	$('input[name="useCurr"]').val('false');
+
+	$(e.currentTarget).off('click');
+	$(e.currentTarget).on('click',useCurrentLoc);
+	$(e.currentTarget).text('Use current location');
+
+	$('#zipcode input[name="zipcode"]').val('');
+	$('#zipcode input[name="zipcode"]').prop('disabled',false);
+}
+
+getLocation();

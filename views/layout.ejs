@@ -1,31 +1,55 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>AMC Movies</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="stylesheet" type="text/css" href="/css/style.css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 </head>
 <body>
-	<header class="sticky-top">
-		<div class="movie-header">
-			<div class="search-boxes">
-				<form action="/search" method="GET">
-					<input type="text" name="name" placeholder="name" />
-					<input type="text" name="zipcode" placeholder="zipcode">
-					<button type="submit">Search</button>
-				</form>	
+	<% if (!login) { -%>
+		<header class="sticky-top">
+			<div class="movie-header">
+				<div class="search-boxes">
+					<form action="/search" method="GET">
+						<div>
+							<input type="text" name="name" placeholder="name" />
+							<div id="zipcode">
+								<input type="text" name="zipcode" placeholder="zipcode">
+								<% if (currLoc) { -%>
+									<a href="#">Use current location</a>
+									<input type="text" class="hidden" name="lat" value="<%=currLoc.lat%>">
+									<input type="text" class="hidden" name="long" value="<%=currLoc.long%>">
+								<% } else { -%>
+									<a class="hidden" href="#">Use current location</a>
+									<input type="text" class="hidden" name="lat">
+									<input type="text" class="hidden" name="long">
+								<% } -%>
+								<input type="text" class="hidden" name="useCurr" value="false">
+							</div>
+						</div>
+						<button type="submit">Search</button>
+					</form>	
+				</div>
+				<div class="links">
+					<a href="/movies">Home</a>
+					<a href="/movies/contacts">Contacts</a>
+					<a href="/wish">Wishlist</a>
+					<% if (loggedIn) { -%>
+						<a href="/logout">Logout</a>
+					<% } else { -%>
+						<a href="/">Login</a>
+					<% } -%>	
+				</div>
 			</div>
-			<div class="links">
-				<a href="/movies">Home</a>
-				<a href="/movies/contacts">Contacts</a>
-				<a href="/wish">Wishlist</a>
-				<a href="/login">Login</a>
-			</div>
-		</div>
-	</header>
+		</header>
+	<% } else { -%>
+		<header class="text-center">
+			<h1>Sign In</h1>
+		</header>
+	<% } -%>
 	<%- body %>
 	
 	<script type="text/javascript" src="/js/app.js"></script>

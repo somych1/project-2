@@ -24,9 +24,16 @@ router.get('/test', async (req,res,next) => {
 })
 
 router.get('/', async (req,res,next) => {
-
+  console.log(req.query);
   try {
-    if (req.query.zipcode && req.query.name) {
+
+    if (req.query.lat && req.query.long && req.session && req.session.loggedIn) {
+      req.session.currLoc = {};
+      req.session.currLoc.lat = req.query.lat;
+      req.session.currLoc.long = req.query.long;
+    }
+
+    if (req.query.zipcode) {
       // const suggestion = await request.get({
       //   url: 'https://api.amctheatres.com/v2/location-suggestions/?query='+req.body.zip,
       //   headers: {
@@ -36,9 +43,15 @@ router.get('/', async (req,res,next) => {
       //   json: true
       // })
 
-      //let url = suggestion._embedded.suggestions[0]._links["https://api.amctheatres.com/rels/v2/locations"].href;
-      // let lat = url.slice(url.indexOf('lat')+9,url.indexOf('&'));
-      // let long = url.slice(url.indexOf('long')+10,url.length - 1);
+      // let url = suggestion._embedded.suggestions[0]._links["https://api.amctheatres.com/rels/v2/locations"].href;
+      // req.query.lat = url.slice(url.indexOf('lat')+9,url.indexOf('&'));
+      // req.query.long = url.slice(url.indexOf('long')+10,url.length - 1);
+      req.query.lat = 38.860511;
+      req.query.long = -94.77581;
+    }
+
+    if ((req.query.zipcode || req.query.useCurr === "true") && req.query.name) {
+     
       let date;
       if (!req.query.date) {
         date = new Date()
@@ -49,7 +62,7 @@ router.get('/', async (req,res,next) => {
       let year = date.getFullYear();
       let day = date.getDate();
       let month = date.getMonth()+1;
-      // url = "https://api.amctheatres.com/v2/showtimes/views/current-location/"+month+"-"+day+"-"+year+"/"+lat+"/"+long+"?movie="+req.query.name
+      // url = "https://api.amctheatres.com/v2/showtimes/views/current-location/"+month+"-"+day+"-"+year+"/"+req.query.lat+"/"+req.query.long+"?movie="+req.query.name
 
       // const response = await request.get({
       //   url: url,
@@ -70,8 +83,6 @@ router.get('/', async (req,res,next) => {
       let dateStr;
       let showtime;
       let prevDate;
-
-      console.log(date.toString().slice(0,16),(new Date()).toString());
 
       if (date.toString().slice(0,15) === (new Date()).toString().slice(0,15)) {
         dateStr = "Today";
@@ -128,21 +139,16 @@ router.get('/', async (req,res,next) => {
         nextDate: nextDate,
         date: dateStr,
         name: req.query.name,
-        zipcode: req.query.zipcode
+        zipcode: req.query.zipcode,
+        currLoc: req.session.currLoc,
+        login: false,
+        loggedIn: req.session.loggedIn
       });
     }
-    else if (req.query.zipcode) {
-      // const suggestion = await request.get({
-      //   url: 'https://api.amctheatres.com/rels/v2/location-suggestions/?query='+req.body.zip,
-      //   headers: {
-      //     'X-AMC-Vendor-Key': process.env.API_KEY
-      //   },
-      //   method: "GET",
-      //   json: true
-      // })
+    else if (req.query.zipcode || req.query.useCurr === "true") {
 
       // const response = await request.get({
-      //   url: suggestion._embedded.suggestions[0]._links["https://api.amctheatres.com/rels/v2/locations"].href,
+      //   url: "https://api.amctheatres.com/rels/v2/locations?latitude="+req.query.lat+"&longitude="+req.query.long,
       //   headers: {
       //     'X-AMC-Vendor-Key': process.env.API_KEY
       //   },
@@ -182,7 +188,10 @@ router.get('/', async (req,res,next) => {
       }
 
       res.render('search/locations.ejs', { 
-        response: response._embedded
+        response: response._embedded,
+        login: false,
+        loggedIn: req.session.loggedIn,
+        currLoc: req.session.currLoc
       });
 
     }
@@ -199,7 +208,10 @@ router.get('/', async (req,res,next) => {
       const response = require('../apidata/nameSearch.js');
 
       res.render('search/movies.ejs', { 
-        response: response._embedded
+        response: response._embedded,
+        login: false,
+        loggedIn: req.session.loggedIn,
+        currLoc: req.session.currLoc
       });
     }
   }

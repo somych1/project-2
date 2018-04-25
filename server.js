@@ -73,16 +73,16 @@ app.use(function isAuthenticated(req,res,next) {
     }
   }
 
-   if (req.method === "DELETE") {
-     return next();
-   }
-   // CHECK THE USER STORED IN SESSION FOR LOGGEDIN
-   if (req.session.loggedIn) return next();
+ if (req.method === "DELETE") {
+   return next();
+ }
+ // CHECK THE USER STORED IN SESSION FOR LOGGEDIN
+ if (req.session.loggedIn) return next();
 
-   // IF A USER ISN'T LOGGED IN, THEN REDIRECT THEM TO THE LOGIN PAGE
-   req.session.register = false;
-   req.session.from = req.get('Referrer');
-   res.redirect('/');
+ // IF A USER ISN'T LOGGED IN, THEN REDIRECT THEM TO THE LOGIN PAGE
+ req.session.register = false;
+ req.session.from = req.get('referer');
+ res.redirect('/');
 })
 
 app.use('/search',searchController);

@@ -6,40 +6,46 @@ const User = require('../models/user');
 
 router.get('/',(req,res) => {
 
-	let err = req.session.err;
-	let register = req.session.register;
-	req.session.err = null;
+ 	let err;
+ 	let register;
+ 	let prevPage;
+
+ 	if (req.session) {
+		err = req.session.err;
+		register = req.session.register;
+		req.session.err = null;
+	}
+
+	if (req.get('referer') !== "http://localhost:3000/") {
+		prevPage = req.get('referer')
+	}
 
 	res.render('auth/login.ejs', {
 		errMessage: err,
-		register: register
+		register: register,
+		login: true,
+		prevPage: prevPage
 	})
 
 })
 
 router.get('/logout', (req,res,next) => {
 	req.session.destroy();
-	if (req.session.from) {
-		let dest = req.session.from;
-		req.session.from = null;
-		res.redirect(dest)
-	}
-	else {
-		res.redirect('/');
-	}
+	
+	res.redirect('back');
 })
 
 router.post('/login', async (req,res,next) => {
 	try {
+		console.log(req.body.from,"here");
+
 		const user = await User.findOne({ username: req.body.username })
 		
 		if (user && bcrypt.compareSync(req.body.password,user.password)) {
 			req.session.loggedIn = true;
 			req.session.username = req.body.username;
-			if (req.session.from) {
-				let dest = req.session.from;
-				req.session.from = null;
-				res.redirect(dest);
+			if (req.body.from) {
+				res.redirect(req.body.from);
 			}
 			else {
 				res.redirect('/movies');
@@ -60,6 +66,8 @@ router.post('/login', async (req,res,next) => {
 router.post('/register', async (req,res,next) => {
 
 	try {
+		let dest = req.body.from;
+		req.body.from = undefined;
 
 		let { password } = req.body;
 		password = bcrypt.hashSync(password,bcrypt.genSaltSync(10))
@@ -78,9 +86,7 @@ router.post('/register', async (req,res,next) => {
 			if (user) {
 				req.session.loggedIn = true;
 				req.session.username = req.body.username;
-				if (req.session.from) {
-					let dest = req.session.from;
-					req.session.from = null;
+				if (dest) {
 					res.redirect(dest);
 				}
 				else {
@@ -122,7 +128,10 @@ router.get('/wish', async (req, res, next) => {
 		}
 		res.render('auth/wish.ejs', {
 			user: foundUser,
-			wishlist: wishlist
+			wishlist: wishlist,
+			currLoc: req.session.currLoc,
+        	login: false,
+        	loggedIn: req.session.loggedIn
 		}) 
 	} catch(err){
 		next(err)
@@ -130,16 +139,7 @@ router.get('/wish', async (req, res, next) => {
 }) 
 
 router.get('*',(req,res) => {
-
-	let err = req.session.err;
-	let register = req.session.register;
-	req.session.err = null;
-
-	res.render('auth/login.ejs', {
-		errMessage: err,
-		register: register
-	})
-
+	res.redirect('/');
 })
 
 module.exports = router;

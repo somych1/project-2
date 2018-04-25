@@ -21,6 +21,9 @@ router.get('/', async (req, res, next) => {
 		res.render('movies/index.ejs', {
 			topMovies: theMovies,
 			nowMovies: playingMovies,
+			currLoc: req.session.currLoc,
+      login: false,
+      loggedIn: req.session.loggedIn,
 			coming: coming
 		})
 	} catch(err) {
@@ -42,7 +45,10 @@ router.get('/:id',(req,res) => {
       //   json: true
       // })
 	res.render('movies/show.ejs', {
-		movie: Movie
+		movie: Movie,
+		currLoc: req.session.currLoc,
+        login: false,
+        loggedIn: req.session.loggedIn
 	})
 	
 })
