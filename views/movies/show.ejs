@@ -18,6 +18,8 @@
 				<form action="/movies?movieId=<%= movie.id%>&name=<%=movie.name%>&poster=<%= movie.media.posterStandard%>&link=<%= movie.links.self.href%>&mpaaRating=<%= movie.mpaaRating %>&runTime=<%= movie.runTime %>&synopsis=<%= movie.synopsis %>" method="POST">
 					<button>ADD</button>
 				</form>
+			<% } else { %>
+				<p>This movie is on your wishlist.</p>
 			<% } %>
 		</div>
 	</div>
