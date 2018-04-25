@@ -1,49 +1,36 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<title></title>
-	<link rel="stylesheet" type="text/css" href="/css/style.css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js">
-		</script>
-
-</head>
-<body>
-	<header class="text-center">
-		<h1><%= movie.sortableName %></h1>
-	</header>
-	<section class="container block">
-		<div class="d-flex film-container">
-			<div>
-				<img src="<%= movie.media.posterStandard %>">
-			</div>
-			<div>
-				<h6>Starring Actors: <%= movie.starringActors %></h6><br>
-				<h6>Directors: <%= movie.directors %></h6><br>
-				<h6>Genre: <%= movie.genre %></h6><br>
-				<h6>Run time: <%= movie.runTime %></h6><br>
-				<h6>Release Date: <%= movie.releaseDateUtc %></h6>
-			</div>
-			<div>
-				<form action="/movies?id=<%= movie.id%>&name=<%=movie.name%>&poster=<%= movie.media.posterStandard%>&link=<%= movie.links.self.href%>&mpaaRating=<%= movie.mpaaRating %>&runTime=<%= movie.runTime %>&synopsis=<%= movie.synopsis %>" method="POST">
-					<button>ADD</button>
-				</form>
-			</div>
+<header class="text-center">
+	<h1><%= movie.sortableName %></h1>
+</header>
+<section class="container block">
+	<div class="d-flex film-container">
+		<div>
+			<img src="<%= movie.media.posterStandard %>">
 		</div>
 		<div>
-			<h6><%= movie.synopsis %></h6>
+			<h6>Starring Actors: <%= movie.starringActors %></h6><br>
+			<h6>Directors: <%= movie.directors %></h6><br>
+			<h6>Genre: <%= movie.genre %></h6><br>
+			<h6>Run time: <%= movie.runTime %></h6><br>
+			<h6>Release Date: <%= movie.releaseDateUtc %></h6>
 		</div>
 		<div>
-			<video width="100%" height="" controls>
-  				<source src="<%= movie.media.trailerMp4 %>" type="video/mp4">
-				Your browser does not support the video tag.
-			</video>
-			<script type="text/javascript" src="/js/movieApp.js"></script>
+			<form action="/movies?id=<%= movie.id%>&name=<%=movie.name%>&poster=<%= movie.media.posterStandard%>&link=<%= movie.links.self.href%>&mpaaRating=<%= movie.mpaaRating %>&runTime=<%= movie.runTime %>&synopsis=<%= movie.synopsis %>" method="POST">
+				<button>ADD</button>
+			</form>
 		</div>
+	</div>
+	<div>
+		<h6><%= movie.synopsis %></h6>
+	</div>
+	<div>
+		<video width="100%" height="" controls>
+				<source src="<%= movie.media.trailerMp4 %>" type="video/mp4">
+			Your browser does not support the video tag.
+		</video>
+		<script type="text/javascript" src="/js/movieApp.js"></script>
+	</div>
 
-	</section>
-	<footer class="block">
-		
-	</footer>
-</body>
-</html>
+</section>
+<footer class="block">
+	
+</footer>
