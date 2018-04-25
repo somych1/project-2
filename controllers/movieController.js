@@ -4,7 +4,8 @@ const Top = require('../apidata/top.js')
 const Movie = require('../apidata/movie.js')
 const NowPlaying = require('../apidata/movies.js')
 const User = require('../models/user.js')
-const Wish = require('../models/wishModel.js')
+const Wish = require('../models/wishModel.js');
+const ComingSoon = require('../apidata/comingSoon.js')
 
 
 router.get('/contacts', (req, res) => {
@@ -15,11 +16,12 @@ router.get('/', async (req, res, next) => {
 	try {
 		const theMovies = Top._embedded.movies;
 		const playingMovies = NowPlaying._embedded.movies;
-		// res.send(moviesArr);
+		const coming = ComingSoon._embedded.movies;
 
 		res.render('movies/index.ejs', {
 			topMovies: theMovies,
-			nowMovies: playingMovies
+			nowMovies: playingMovies,
+			coming: coming
 		})
 	} catch(err) {
 		next(err)

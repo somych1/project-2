@@ -56,6 +56,7 @@ router.post('/login', async (req,res,next) => {
 	}
 })
 
+
 router.post('/register', async (req,res,next) => {
 
 	try {
@@ -119,7 +120,6 @@ router.get('/wish', async (req, res, next) => {
 			response = Movie
 			wishlist.push(response);
 		}
-
 		res.render('auth/wish.ejs', {
 			user: foundUser,
 			wishlist: wishlist
@@ -127,7 +127,7 @@ router.get('/wish', async (req, res, next) => {
 	} catch(err){
 		next(err)
 	}
-})
+}) 
 
 router.get('*',(req,res) => {
 
