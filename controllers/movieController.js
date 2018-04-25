@@ -37,7 +37,31 @@ router.get('/', async (req, res, next) => {
 });
 
 
-router.get('/:id',(req,res) => {
+router.get('/:id', async (req,res, next) => {
+	try{
+		let addButton = true;
+		if (req.session.loggedIn) {
+			const foundUser = await User.findOne({'username': req.session.username})
+			if(foundUser.wishlist && foundUser.wishlist.length > 0) {
+				for(let i = 0; i < foundUser.wishlist.length; i++) {
+					if(Movie.id === foundUser.wishlist[i].movieId) {
+						addButton = false;
+					}
+				}
+			}
+		}
+		console.log(addButton)
+		res.render('movies/show.ejs', {
+			button: addButton,
+			movie: Movie,
+			currLoc: req.session.currLoc,
+	        login: false,
+	        loggedIn: req.session.loggedIn
+		})
+	} catch (err) {
+		next(err)
+	}
+	
 	// const Movie = require('../apidata/movie.js');
 
   // const Movie = await Movie.get({
@@ -48,12 +72,7 @@ router.get('/:id',(req,res) => {
       //   method: "GET",
       //   json: true
       // })
-	res.render('movies/show.ejs', {
-		movie: Movie,
-		currLoc: req.session.currLoc,
-        login: false,
-        loggedIn: req.session.loggedIn
-	})
+	
 	
 })
 
