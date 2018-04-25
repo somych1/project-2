@@ -14,7 +14,7 @@
 			<h6>Release Date: <%= movie.releaseDateUtc %></h6>
 		</div>
 		<div>
-			<form action="/movies?id=<%= movie.id%>&name=<%=movie.name%>&poster=<%= movie.media.posterStandard%>&link=<%= movie.links.self.href%>&mpaaRating=<%= movie.mpaaRating %>&runTime=<%= movie.runTime %>&synopsis=<%= movie.synopsis %>" method="POST">
+			<form action="/movies?movieId=<%= movie.id%>&name=<%=movie.name%>&poster=<%= movie.media.posterStandard%>&link=<%= movie.links.self.href%>&mpaaRating=<%= movie.mpaaRating %>&runTime=<%= movie.runTime %>&synopsis=<%= movie.synopsis %>" method="POST">
 				<button>ADD</button>
 			</form>
 		</div>
@@ -23,9 +23,7 @@
 		<h6><%= movie.synopsis %></h6>
 	</div>
 	<div>
-		<video width="100%" height="" controls>
-				<source src="<%= movie.media.trailerMp4 %>" type="video/mp4">
-			Your browser does not support the video tag.
+		<video width="100%" src="<%= movie.media.trailerHd %>" controls>
 		</video>
 		<script type="text/javascript" src="/js/movieApp.js"></script>
 	</div>
