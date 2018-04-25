@@ -10,7 +10,7 @@
 </head>
 <body>
 	<% if (!login) { -%>
-		<header>
+		<header class="sticky-top">
 			<div class="movie-header">
 				<div class="search-boxes">
 					<form action="/search" method="GET">
@@ -36,13 +36,12 @@
 				<div class="links">
 					<a href="/movies">Home</a>
 					<a href="/movies/contacts">Contacts</a>
-					<a href="/movies/wish">Wishlist</a>
+					<a href="/wish">Wishlist</a>
 					<% if (loggedIn) { -%>
 						<a href="/logout">Logout</a>
 					<% } else { -%>
 						<a href="/">Login</a>
-					<% } -%>
-					
+					<% } -%>	
 				</div>
 			</div>
 		</header>
