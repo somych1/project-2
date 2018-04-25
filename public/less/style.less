@@ -69,17 +69,43 @@ header {
   }
 }
 
+#zipcode {
+  display: flex;
+  flex-direction: column;
+  margin-right: 5px;
+
+  a {
+    font-size: 10px;
+  }
+}
+
 .movie-header {
   padding: 10px;
   display: flex;
   justify-content: space-between;
   width: 100%;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: top;
 
   .search-boxes {
-    input {
-      width: 40%;
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 5px;
+
+      input,button {
+        height: 30px;
+      }
+    }
+
+    form > div {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 5px;
+    }
+
+    form > div > input {
+      margin-right: 5px;
       margin-bottom: 5px;
     }
   }
@@ -95,19 +121,40 @@ header {
 
 /* Login page */
 
-.login{
+.login {
   width: 22%;
   margin: auto;
-
 }
+
+#login {
+  padding: 5px;
+  border-right: 2px #71002F solid;
+}
+
+#register {
+  padding: 5px;
+  border-left: 2px #71002F solid;
+}
+
 #tabs {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
 
 }
+
 .highlighted {
   background-color: #AEA8BF;
   color: #3A3840;
+}
+
+#login.highlighted {
+  border: none;
+  margin-right: 5px;
+}
+
+#register.highlighted {
+  border: none;
+  margin-left: 5px;
 }
 
 /* Movie Index */
@@ -204,4 +251,3 @@ span.title {
 
   }
 }
-
