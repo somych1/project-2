@@ -6,14 +6,15 @@
 	for (let i = 0; i < response.locations.length; i++) {
 		theatre = response.locations[i]._embedded.theatre -%>
 		<div class = "card block">
-			<h3>Theatre: <%= theatre.name %></h3>
+			<h3><%= theatre.name %></h3>
 			<div>
 				<p> <%= theatre.location.addressLine1 %></p>
 				<p> <%= theatre.location.addressLine2 %></p>
-				<p> <%= theatre.location.city + ", " + theatre.location.state + ", " + theatre.location.postalCode.slice(0,4) %></p>
+				<p> <%= theatre.location.city + ", " + theatre.location.state + ", " + theatre.location.postalCode.slice(0,5) %></p>
 				<p class="showtime-controls" id="<%= i %>">Showtimes for this theatre &#9660;</p>
 				<div id="showtimes<%= i %>" class="hidden showtimes">
 					<% for (let showtime of theatre.showtimes) {%>
+						<% if (showtime.mpaaRating && !showtime.isSoldOut && showtime.genre) { -%>
 						<div class = "card showtime">
 							<h5 class = "card-title"><%= showtime.showFormattedDate %></h5>
 							<div class="contents">
@@ -25,6 +26,7 @@
 								</div>
 							</div>
 						</div>
+						<% } -%>
 					<%}%>
 				</div>
 			</div>

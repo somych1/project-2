@@ -83,7 +83,6 @@ app.use(function isAuthenticated(req,res,next) {
     }
   }
 
-console.log(req.get('referer'),req.url);
  // IF A USER ISN'T LOGGED IN, THEN REDIRECT THEM TO THE LOGIN PAGE
  req.session.register = false;
  req.session.err = "You must login to take that action."

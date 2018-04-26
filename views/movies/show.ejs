@@ -4,7 +4,7 @@
 <section class="container block">
 	<div class="d-flex film-container">
 		<div class="col-3">
-			<img class="img-fluid" src="<%= movie.media.posterStandard %>">
+			<img class="img-fluid" src="<%= movie.media.posterDynamic %>">
 		</div>
 		<div class="col-6">
 			<h6>Starring Actors: <%= movie.starringActors %></h6><br>
@@ -12,7 +12,7 @@
 			<h6>Genre: <%= movie.genre %></h6><br>
 			<h6>Run time: <%= movie.runTime %></h6><br>
 			<h6>Release Date: <%= movie.releaseDate %></h6><br>
-			<% if(hasScheduledShowtimes) { %>
+			<% if(movie.hasScheduledShowtimes) { %>
 				<h6>This movie has scheduled showtimes</h6>
 			<% } else { %>
 				<h6>This movie has no scheduled showtimes</h6>
@@ -20,7 +20,7 @@
 		</div>
 		<div class="col-3 d-flex justify-content-end">
 			<% if(button) { %>
-				<form action="/movies?movieId=<%= movie.id%>&name=<%=movie.name%>&poster=<%= movie.media.posterStandard%>&link=<%= movie.links.self.href%>&mpaaRating=<%= movie.mpaaRating %>&runTime=<%= movie.runTime %>&synopsis=<%= movie.synopsis %>&hasScheduledShowtimes=<%= movie.hasScheduledShowtimes%>" method="POST">
+				<form action="/movies?movieId=<%= movie.id%>" method="POST">
 					<button>ADD</button>
 				</form>
 			<% } else { %>
