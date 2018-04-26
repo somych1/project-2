@@ -1,0 +1,16 @@
+<section class="container">
+	<h1><%= user.username%>'s List of Watched Movies</h1>
+	<% for(let i = 0; i < watched.length; i++) { %>
+		<div class = "card block">
+			<div class="contents">
+				<a href="/movies/<%= watched[i].id%>"><img class="card-img-left" src="<%= watched[i].media.posterStandard %>"></a>
+				<div class="card-body">
+					<p class="card-text"><span class="title"><%= watched[i].name %></span> <span class="rating"><%= watched[i].mpaaRating %></span></p>
+					<p class="card-text"><%= watched[i].runTime %> min</p>
+					<p class="card-text synopsis"><%= watched[i].synopsis %></p>
+					</form>
+				</div>
+			</div>
+		</div>
+	<% } %>
+</section>

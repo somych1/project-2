@@ -49,6 +49,12 @@ router.get('/:id', async (req,res, next) => {
 						addButton = false;
 					}
 				}
+			} else if (foundUser.watched && foundUser.watched.length > 0){
+				for(let i = 0; i < foundUser.watched.length; i++) {
+					if(Movie.id === foundUser.watched[i].movieId) {
+						addButton = false;
+					}
+				}
 			}
 		}
 		
@@ -61,6 +67,7 @@ router.get('/:id', async (req,res, next) => {
 		res.render('movies/show.ejs', {
 			button: addButton,
 			movie: Movie,
+			hasScheduledShowtimes: Movie.hasScheduledShowtimes,
 			currLoc: req.session.currLoc,
 	        login: false,
 	        loggedIn: req.session.loggedIn

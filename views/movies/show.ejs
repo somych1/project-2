@@ -3,23 +3,28 @@
 </header>
 <section class="container block">
 	<div class="d-flex film-container">
-		<div>
-			<img src="<%= movie.media.posterStandard %>">
+		<div class="col-3">
+			<img class="img-fluid" src="<%= movie.media.posterStandard %>">
 		</div>
-		<div>
+		<div class="col-6">
 			<h6>Starring Actors: <%= movie.starringActors %></h6><br>
 			<h6>Directors: <%= movie.directors %></h6><br>
 			<h6>Genre: <%= movie.genre %></h6><br>
 			<h6>Run time: <%= movie.runTime %></h6><br>
-			<h6>Release Date: <%= movie.releaseDate %></h6>
+			<h6>Release Date: <%= movie.releaseDate %></h6><br>
+			<% if(hasScheduledShowtimes) { %>
+				<h6>This movie has scheduled showtimes</h6>
+			<% } else { %>
+				<h6>This movie has no scheduled showtimes</h6>
+			<% } %>
 		</div>
-		<div>
+		<div class="col-3 d-flex justify-content-end">
 			<% if(button) { %>
-				<form action="/movies?movieId=<%= movie.id%>&name=<%=movie.name%>&poster=<%= movie.media.posterStandard%>&link=<%= movie.links.self.href%>&mpaaRating=<%= movie.mpaaRating %>&runTime=<%= movie.runTime %>&synopsis=<%= movie.synopsis %>" method="POST">
+				<form action="/movies?movieId=<%= movie.id%>&name=<%=movie.name%>&poster=<%= movie.media.posterStandard%>&link=<%= movie.links.self.href%>&mpaaRating=<%= movie.mpaaRating %>&runTime=<%= movie.runTime %>&synopsis=<%= movie.synopsis %>&hasScheduledShowtimes=<%= movie.hasScheduledShowtimes%>" method="POST">
 					<button>ADD</button>
 				</form>
 			<% } else { %>
-				<p>This movie is on your wishlist.</p>
+				<p class="no-add">This movie is on your list.</p>
 			<% } %>
 		</div>
 	</div>

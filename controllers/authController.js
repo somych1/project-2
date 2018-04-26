@@ -134,6 +134,7 @@ router.get('/wish', async (req, res, next) => {
 		res.render('auth/wish.ejs', {
 			user: foundUser,
 			wishlist: wishlist,
+			hasScheduledShowtimes: wishlist.hasScheduledShowtimes,
 			currLoc: req.session.currLoc,
         	login: false,
         	loggedIn: req.session.loggedIn
@@ -142,6 +143,55 @@ router.get('/wish', async (req, res, next) => {
 		next(err)
 	}
 }) 
+
+router.get('/watched', async (req, res, next) => {
+	try {
+		
+		const foundUser = await User.findOne({username: req.session.username})
+		
+		const watched = [];
+		
+		for (let movie of foundUser.watched) {
+		const Movie = require('../apidata/movie.js');
+
+	  	// const Movie = await Movie.get({
+    //     	url: 'https://api.amctheatres.com/v2/movies/'+movie.id,
+    //     	headers: {
+    //       		'X-AMC-Vendor-Key': process.env.API_KEY
+    //     	},
+    //     	method: "GET",
+    //     	json: true
+    //   	})
+			response = Movie
+			watched.push(response);
+		}
+		res.render('auth/watched.ejs', {
+			user: foundUser,
+			watched: watched,
+			currLoc: req.session.currLoc,
+        	login: false,
+        	loggedIn: req.session.loggedIn
+		}) 
+	} catch(err){
+		next(err)
+	}
+})
+
+// post
+router.post('/wish/:movieId', async (req,res, next) =>{
+
+	try{
+		const foundUser = await User.findOne({username: req.session.username})
+		const newWatched = await Wish.findOne({'movieId': req.params.movieId})
+		console.log(newWatched)
+		foundUser.wishlist.splice(foundUser.wishlist.indexOf(newWatched),1)
+		foundUser.watched.push(newWatched)
+		await foundUser.save()
+		res.redirect('back')
+	} catch(err) {
+		next(err)
+	}
+})
 
 // delete button
 router.delete('/wish/:movieId', async (req, res, next) => {

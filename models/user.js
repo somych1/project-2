@@ -9,5 +9,6 @@ module.exports = mongoose.model('User',new mongoose.Schema({
 	},
 	password: String,
 	preferredZip: String,
-	wishlist: [Wish.schema]
+	wishlist: [Wish.schema],
+	watched: [Wish.schema]
 }))

@@ -8,6 +8,14 @@
 					<p class="card-text"><span class="title"><%= wishlist[i].name %></span> <span class="rating"><%= wishlist[i].mpaaRating %></span></p>
 					<p class="card-text"><%= wishlist[i].runTime %> min</p>
 					<p class="card-text synopsis"><%= wishlist[i].synopsis %></p>
+					<% if(hasScheduledShowtimes) { %>
+						<p>This movie has scheduled showtimes<p>
+					<% } else { %>
+						<p>This movie has no scheduled showtimes</p>
+					<% } %>
+					<form action="/wish/<%=wishlist[i].id%>" method="POST">
+					<button>Watched</button>
+				</form>
 					<form action="/wish/<%= wishlist[i].id%>?_method=DELETE" method="POST">
 						<button>Delete</button>
 					</form>

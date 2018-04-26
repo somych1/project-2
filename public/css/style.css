@@ -39,7 +39,7 @@ h4 {
   background-color: rgba(58, 56, 64, 0.7);
 }
 img {
-  max-height: 500px;
+  max-height: 100%;
   margin: 3px;
 }
 .hidden {
@@ -227,4 +227,7 @@ span.title {
 }
 .theatre-info div {
   margin-right: 20px;
+}
+.no-add {
+  color: white;
 }
