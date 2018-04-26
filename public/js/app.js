@@ -31,6 +31,14 @@ $('.showtime-controls').on('click',(e) => {
 	$('#showtimes'+id).toggleClass('hidden');
 })
 
+//Show/hide zipcode for wishlist
+$('.other-zip').on('click',(e) => {
+	let form = $($(e.currentTarget).parent()[0]);
+	let id = form.attr('id');
+
+	$('form#'+id+' .zip').toggleClass('hidden');
+})
+
 //Load current location
 function getLocation() {
 	if ($('#zipcode input').val() === "Using current location") {
@@ -53,13 +61,19 @@ function setPosition(position) {
 	let long = $('input[name="long"]');
 	long.val(position.coords.longitude);
 
-	$('#zipcode a').off('click');
+	$('#zipcode p').off('click');
+	enablePosition();
+
+	$('.movie-showtime .currLoc').off('click');
 	enablePosition();
 }
 
 function enablePosition() {
-	$('#zipcode a').on('click',useCurrentLoc)
-	$('#zipcode a').removeClass('hidden');
+	$('#zipcode p').on('click',useCurrentLoc);
+	$('#zipcode p').removeClass('hidden');
+
+	$('.movie-showtime .currLoc').on('click',useCurrLocForShow);
+	$('.movie-showtime .currLoc').removeClass('hidden');
 }
 
 function useCurrentLoc(e) {
@@ -84,6 +98,17 @@ function useOtherLoc(e) {
 
 	$('#zipcode input[name="zipcode"]').val('');
 	$('#zipcode input[name="zipcode"]').prop('disabled',false);
+}
+
+function useCurrLocForShow(e) {
+
+	let form = $($(e.currentTarget).parent());
+	let id = form.attr('id');
+
+	let useCurr = $('form#'+id+' input[name="useCurrLocForShow"]');
+	useCurr.val('true');
+
+	form.submit();
 }
 
 getLocation();

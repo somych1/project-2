@@ -33,11 +33,16 @@ h4 {
   color: white;
 }
 
+.link {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .block {
   border: 1px solid #AEA8BF;
   padding: 10px;
   margin-top: 10px;
-  background-color: rgba(58,56,64,0.5);
+  background-color: rgba(58,56,64,0.7);
 }
 
 img {
@@ -64,7 +69,7 @@ header {
   padding: 0;
   border: none;
   background-color: #71002F;
-  h1,a {
+  h1,a,p {
     color: white;
   }
 }
@@ -74,8 +79,10 @@ header {
   flex-direction: column;
   margin-right: 5px;
 
-  a {
+  .link {
     font-size: 10px;
+    text-decoration: none;
+    color: white;
   }
 }
 
@@ -159,8 +166,7 @@ header {
 }
 
 #error {
-  background-color: red;
-  color: #DDDDDD;
+  color: red;
   display: inline-block;
   padding: 3px;
   margin-left: 39%;
@@ -185,8 +191,6 @@ header {
 }
 
 .card.block {
-  border: 1px solid #AEA8BF;
-  background-color: #3A3840;
   color: white;
   h3 {
     margin-left: 0;

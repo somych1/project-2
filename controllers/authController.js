@@ -20,8 +20,6 @@ router.get('/',(req,res) => {
 	register = req.session.register;
 	req.session.err = null;
 
-	console.log(req.session.dest,req.get('referer'),host);
-
 	if (req.session && req.session.dest && req.session.dest !== '/' && req.session.dest !== '/logout') {
 		destPage = req.session.dest;
 	}

@@ -6,10 +6,10 @@
 <main class="container search">
 	<div class="container block text-white">
 		<% if (prevDate) { %>
-			<a class="btn" href="/search?name=<%= name %>&zipcode=<%= zipcode %>&date=<%= prevDate %>">Previous date</a>
+			<a class="btn" href="<%= prevDate %>">Previous date</a>
 		<%}%>
 		<p><%= date %></p>
-		<a class="btn" href="/search?name=<%= name %>&zipcode=<%= zipcode %>&date=<%= nextDate %>">Next date</a>
+		<a class="btn" href="<%= nextDate %>">Next date</a>
 	</div>
 	<% for (let showtime of response.showtimes) { -%>
 		<div class = "card block">

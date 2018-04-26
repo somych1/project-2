@@ -19,11 +19,11 @@
 							<div id="zipcode">
 								<input type="text" name="zipcode" placeholder="zipcode">
 								<% if (currLoc) { -%>
-									<a href="#">Use current location</a>
+									<p class="link">Use current location</p>
 									<input type="text" class="hidden" name="lat" value="<%=currLoc.lat%>">
 									<input type="text" class="hidden" name="long" value="<%=currLoc.long%>">
 								<% } else { -%>
-									<a class="hidden" href="#">Use current location</a>
+									<p class="hidden link" href="#">Use current location</p>
 									<input type="text" class="hidden" name="lat">
 									<input type="text" class="hidden" name="long">
 								<% } -%>
