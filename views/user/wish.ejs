@@ -5,7 +5,7 @@
 	<% for(let i = 0; i < wishlist.length; i++) { %>
 		<div class = "card block">
 			<div class="contents">
-				<a href="/movies/<%= wishlist[i].id%>"><img class="card-img-left" src="<%= wishlist[i].media.posterStandard %>"></a>
+				<a href="/movies/<%= wishlist[i].id%>"><img class="card-img-left" src="<%= wishlist[i].media.posterDynamic %>"></a>
 				<div class="card-body">
 					<p class="card-text"><span class="title"><%= wishlist[i].name %></span> <span class="rating"><%= wishlist[i].mpaaRating %></span></p>
 					<p class="card-text"><%= wishlist[i].runTime %> min</p>

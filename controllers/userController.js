@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
+const request = require('request-promise-native');
 
 const User = require('../models/user');
 const Wish =require('../models/wishModel')
@@ -118,18 +119,18 @@ router.get('/wish', async (req, res, next) => {
 		const wishlist = [];
 		
 		for (let movie of foundUser.wishlist) {
-		const Movie = require('../apidata/movie.js');
+		//const Movie = require('../apidata/movie.js');
 
-	  	// const Movie = await Movie.get({
-    //     	url: 'https://api.amctheatres.com/v2/movies/'+movie.id,
-    //     	headers: {
-    //       		'X-AMC-Vendor-Key': process.env.API_KEY
-    //     	},
-    //     	method: "GET",
-    //     	json: true
-    //   	})
-			response = Movie
-			wishlist.push(response);
+		  	const Movie = await request.get({
+	        	url: 'https://api.amctheatres.com/v2/movies/'+movie.movieId,
+	        	headers: {
+	          		'X-AMC-Vendor-Key': process.env.API_KEY
+	        	},
+	        	method: "GET",
+	        	json: true
+	      	})
+
+			wishlist.push(Movie);
 		}
 		res.render('user/wish.ejs', {
 			user: foundUser,
@@ -151,18 +152,18 @@ router.get('/watched', async (req, res, next) => {
 		const watched = [];
 		
 		for (let movie of foundUser.watched) {
-		const Movie = require('../apidata/movie.js');
+		//const Movie = require('../apidata/movie.js');
 
-	  	// const Movie = await Movie.get({
-    //     	url: 'https://api.amctheatres.com/v2/movies/'+movie.id,
-    //     	headers: {
-    //       		'X-AMC-Vendor-Key': process.env.API_KEY
-    //     	},
-    //     	method: "GET",
-    //     	json: true
-    //   	})
-			response = Movie
-			watched.push(response);
+		  	const Movie = await Movie.get({
+	        	url: 'https://api.amctheatres.com/v2/movies/'+movie.movieId,
+	        	headers: {
+	          		'X-AMC-Vendor-Key': process.env.API_KEY
+	        	},
+	        	method: "GET",
+	        	json: true
+	      	})
+
+			watched.push(Movie);
 		}
 		res.render('user/watched.ejs', {
 			user: foundUser,

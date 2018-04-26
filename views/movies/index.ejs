@@ -8,7 +8,7 @@
       <!-- list of top movies with images -->
       <% for(let i = 0; i < topMovies.length; i++) { %>
         <a href="/movies/<%= topMovies[i].id%>">
-          <img src="<%= topMovies[i].media.posterStandard %>">
+          <img src="<%= topMovies[i].media.posterDynamic %>">
         </a>
       <% } %>
     </div>
@@ -16,7 +16,7 @@
     <div class="index-list">
       <% for(let i = 0; i < nowMovies.length; i++) { %>
         <a href="/movies/<%= nowMovies[i].id%>">
-          <img src="<%= nowMovies[i].media.posterStandard %>">
+          <img src="<%= nowMovies[i].media.posterDynamic %>">
         </a>
       <% } %>
     </div>
@@ -24,7 +24,7 @@
     <div class="index-list">
       <% for(let i = 0; i < coming.length; i++) { %>
         <a href="/movies/<%= coming[i].id%>">
-          <img src="<%= coming[i].media.posterStandard %>">
+          <img src="<%= coming[i].media.posterDynamic %>">
         </a>
       <% } %>
     </div>
