@@ -134,7 +134,6 @@ router.get('/wish', async (req, res, next) => {
 		res.render('auth/wish.ejs', {
 			user: foundUser,
 			wishlist: wishlist,
-			hasScheduledShowtimes: wishlist.hasScheduledShowtimes,
 			currLoc: req.session.currLoc,
         	login: false,
         	loggedIn: req.session.loggedIn
