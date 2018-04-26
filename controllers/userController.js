@@ -52,10 +52,20 @@ router.get('/edit', async (req, res, next) => {
 })
 
 router.put('/', async (req, res, next) => {
-	console.log('dfafadfadsf')
 	try {
-		const foundUser = await User.findOneAndUpdate({'username': req.session.username}, req.body, {new: true});
-		console.log(foundUser)
+		const foundUser = await User.findOne({'username': req.session.username});
+
+		if (req.body.password) {
+			let { password } = req.body;
+			password = bcrypt.hashSync(password,bcrypt.genSaltSync(10))
+			req.body.password = password;
+		}
+		else {
+			req.body.password = foundUser.password;
+		}
+
+		const updatedUser = await User.findByIdAndUpdate(foundUser._id, req.body, {new: true});
+		
 		res.redirect('/')
 	} catch (err) {
 		next(err)
