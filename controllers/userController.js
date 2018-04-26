@@ -27,7 +27,7 @@ router.get('/',(req,res) => {
 		destPage = req.get('referer');
 	}
 
-	res.render('auth/login.ejs', {
+	res.render('user/login.ejs', {
 		errMessage: err,
 		register: register,
 		login: true,
@@ -131,7 +131,7 @@ router.get('/wish', async (req, res, next) => {
 			response = Movie
 			wishlist.push(response);
 		}
-		res.render('auth/wish.ejs', {
+		res.render('user/wish.ejs', {
 			user: foundUser,
 			wishlist: wishlist,
 			currLoc: req.session.currLoc,
@@ -164,7 +164,7 @@ router.get('/watched', async (req, res, next) => {
 			response = Movie
 			watched.push(response);
 		}
-		res.render('auth/watched.ejs', {
+		res.render('user/watched.ejs', {
 			user: foundUser,
 			watched: watched,
 			currLoc: req.session.currLoc,
