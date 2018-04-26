@@ -28,6 +28,10 @@ h6 {
 h4 {
   color: white;
 }
+.link {
+  text-decoration: underline;
+  cursor: pointer;
+}
 .block {
   border: 1px solid #AEA8BF;
   padding: 10px;
@@ -55,7 +59,8 @@ header {
   background-color: #71002F;
 }
 header h1,
-header a {
+header a,
+header p {
   color: white;
 }
 #zipcode {
@@ -63,8 +68,10 @@ header a {
   flex-direction: column;
   margin-right: 5px;
 }
-#zipcode a {
+#zipcode .link {
   font-size: 10px;
+  text-decoration: none;
+  color: white;
 }
 .movie-header {
   padding: 10px;
@@ -149,8 +156,6 @@ header a {
   justify-content: space-around;
 }
 .card.block {
-  border: 1px solid #AEA8BF;
-  background-color: rgba(58, 56, 64, 0.7);
   color: white;
 }
 .card.block h3 {
@@ -213,6 +218,15 @@ span.title {
 }
 .search .showtime img {
   max-height: 75px;
+}
+/* Theatre show page */
+.theatre-info {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 10px;
+}
+.theatre-info div {
+  margin-right: 20px;
 }
 .no-add {
   color: white;

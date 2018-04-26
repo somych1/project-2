@@ -20,7 +20,25 @@
 						<button>Delete</button>
 					</form>
 				</div>
+
 			</div>
+			<form class="movie-showtime" id="<%= i %>" action="/search/movie/<%= wishlist[i].id %>" method="GET">
+				<% if (currLoc) { -%>
+					<p class="currLoc link">Search for showtimes using current location</p>
+					<input type="text" class="hidden" name="lat" value="<%=currLoc.lat%>">
+					<input type="text" class="hidden" name="long" value="<%=currLoc.long%>">
+				<% } else { -%>
+					<p class="hidden currLoc link">Search for showtimes using current location</p>
+					<input type="text" class="hidden" name="lat">
+					<input type="text" class="hidden" name="long">
+				<% } -%>
+				<p class="other-zip link">Search for showtimes using a zipcode</p>
+				<div class="hidden zip">
+					<input type="text" name="zipcode" placeholder="zipcode">
+					<input type="submit" value="Search">
+				</div>
+				<input type="text" class="hidden" name="useCurrForShow" value="false">
+			</form>
 		</div>
 	<% } %>
 </section>

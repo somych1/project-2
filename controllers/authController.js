@@ -213,7 +213,7 @@ router.delete('/wish/:movieId', async (req, res, next) => {
 })
 
 router.get('*',(req,res) => {
-	res.redirect('/');
+	res.redirect('/movies');
 })
 
 module.exports = router;

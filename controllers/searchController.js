@@ -24,10 +24,10 @@ router.get('/test', async (req,res,next) => {
 })
 
 router.get('/', async (req,res,next) => {
-  console.log(req.query);
+
   try {
 
-    if (req.query.lat && req.query.long && req.session && req.session.loggedIn) {
+    if (req.query.lat && req.query.long && req.session && !req.session.currLoc && req.session.loggedIn) {
       req.session.currLoc = {};
       req.session.currLoc.lat = req.query.lat;
       req.session.currLoc.long = req.query.long;
@@ -80,6 +80,11 @@ router.get('/', async (req,res,next) => {
       let theatre;
       let url;
       let time;
+      let dateUrl = '/search'+req.url;
+      let indOfDtQuer = dateUrl.indexOf('&date=');
+      if (indOfDtQuer >= 0) {
+        dateUrl = dateUrl.slice(0,indOfDtQuer)+dateUrl.slice(dateUrl.indexOf('-',indOfDtQuer+10)+5);
+      }
       let dateStr;
       let showtime;
       let prevDate;
@@ -95,7 +100,7 @@ router.get('/', async (req,res,next) => {
         year = date.getFullYear();
         day = date.getDate();
         month = date.getMonth()+1;
-        prevDate = month+"-"+day+"-"+year;
+        prevDate = dateUrl+'&date='+month+"-"+day+"-"+year;
         date.setDate(date.getDate()+1);
         
       }
@@ -104,7 +109,7 @@ router.get('/', async (req,res,next) => {
       year = date.getFullYear();
       day = date.getDate();
       month = date.getMonth()+1;
-      let nextDate = month+"-"+day+"-"+year;
+      let nextDate = dateUrl+'&date='+month+"-"+day+"-"+year;
 
       let dateObj;
 
@@ -138,8 +143,6 @@ router.get('/', async (req,res,next) => {
         prevDate: prevDate,
         nextDate: nextDate,
         date: dateStr,
-        name: req.query.name,
-        zipcode: req.query.zipcode,
         currLoc: req.session.currLoc,
         login: false,
         loggedIn: req.session.loggedIn
@@ -217,6 +220,134 @@ router.get('/', async (req,res,next) => {
   }
   catch (err) {
     next(err)
+  }
+})
+
+router.get('/movie/:id', async (req,res,next) => {
+  try {
+    if (req.query.useCurrForShow === 'true') {
+
+      if (req.query.lat && req.query.long && req.session && !req.session.currLoc && req.session.loggedIn) {
+        req.session.currLoc = {};
+        req.session.currLoc.lat = req.query.lat;
+        req.session.currLoc.long = req.query.long;
+      }
+    }
+    else {
+      // const suggestion = await request.get({
+      //   url: 'https://api.amctheatres.com/v2/location-suggestions/?query='+req.query.zipcode,
+      //   headers: {
+      //     'X-AMC-Vendor-Key': process.env.API_KEY
+      //   },
+      //   method: "GET",
+      //   json: true
+      // })
+
+      // let url = suggestion._embedded.suggestions[0]._links["https://api.amctheatres.com/rels/v2/locations"].href;
+      // req.query.lat = url.slice(url.indexOf('lat')+9,url.indexOf('&'));
+      // req.query.long = url.slice(url.indexOf('long')+10,url.length - 1);
+      req.query.lat = 38.860511;
+      req.query.long = -94.77581;
+    }
+
+    if (!req.query.date) {
+      date = new Date()
+    }
+    else {
+      date = new Date(req.query.date)
+    }
+    let year = date.getFullYear();
+    let day = date.getDate();
+    let month = date.getMonth()+1;
+    // url = "https://api.amctheatres.com/v2/showtimes/views/current-location/"+month+"-"+day+"-"+year+"/"+req.query.lat+"/"+req.query.long+"?movie-id="+req.params.id
+
+    // const response = await request.get({
+    //   url: url,
+    //   headers: {
+    //     'X-AMC-Vendor-Key': process.env.API_KEY
+    //   },
+    //   method: "GET",
+    //   json: true
+    // })
+
+
+
+    const response = require('../apidata/locAndNameSearch.js');
+
+    let theatre;
+    let url;
+    let dateUrl = '/search'+req.url;
+    let indOfDtQuer = dateUrl.indexOf('&date=');
+    if (indOfDtQuer >= 0) {
+      dateUrl = dateUrl.slice(0,indOfDtQuer)+dateUrl.slice(dateUrl.indexOf('-',indOfDtQuer+10)+5);
+    }
+
+    let time;
+    let dateStr;
+    let showtime;
+    let prevDate;
+
+    if (date.toString().slice(0,15) === (new Date()).toString().slice(0,15)) {
+      dateStr = "Today";
+    }
+    else {
+
+      dateStr = getDateStr(date,false)
+
+      date.setDate(date.getDate()-1);
+      year = date.getFullYear();
+      day = date.getDate();
+      month = date.getMonth()+1;
+      prevDate = dateUrl+'&date='+month+"-"+day+"-"+year;
+      date.setDate(date.getDate()+1);
+      
+    }
+
+    date.setDate(date.getDate()+1);
+    year = date.getFullYear();
+    day = date.getDate();
+    month = date.getMonth()+1;
+    let nextDate = dateUrl+'&date='+month+"-"+day+"-"+year;
+
+    let dateObj;
+
+    for (let i = 0; i < response._embedded.showtimes.length; i++) {
+
+      showtime = response._embedded.showtimes[i];
+
+      // url = showtime._links['https://api.amctheatres.com/rels/v2/theatre']
+
+      // theatre = await request.get({
+      //  url: url,
+      //  headers: {
+      //    'X-AMC-Vendor-Key': process.env.API_KEY
+      //  },
+      //  method: "GET",
+      //  json: true
+      // })
+
+      theatre = require('../apidata/theatre.js');
+
+      dateObj = new Date(showtime.showDateTimeLocal);
+
+      time = getTimeStr(dateObj)
+
+      response._embedded.showtimes[i].showFormattedTime = time;
+      response._embedded.showtimes[i].theatre = theatre;
+    }
+
+    res.render('search/showtimes.ejs', { 
+      response: response._embedded,
+      prevDate: prevDate,
+      nextDate: nextDate,
+      date: dateStr,
+      currLoc: req.session.currLoc,
+      login: false,
+      loggedIn: req.session.loggedIn
+    });
+  }
+  catch (err) {
+    next(err);
   }
 })
 
