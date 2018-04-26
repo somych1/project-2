@@ -37,6 +37,42 @@ router.get('/',(req,res) => {
 
 })
 
+router.get('/edit', async (req, res, next) => {
+	try {
+		const foundUser = await User.findOne({'username': req.session.username});
+		res.render('user/edit.ejs', {
+			user: foundUser,
+			name: foundUser.username,
+			currLoc: req.session.currLoc,
+        	login: false,
+        	loggedIn: req.session.loggedIn
+		})
+	} catch (err) {
+		next(err)
+	}
+})
+
+router.put('/', async (req, res, next) => {
+	try {
+		const foundUser = await User.findOne({'username': req.session.username});
+
+		if (req.body.password) {
+			let { password } = req.body;
+			password = bcrypt.hashSync(password,bcrypt.genSaltSync(10))
+			req.body.password = password;
+		}
+		else {
+			req.body.password = foundUser.password;
+		}
+
+		const updatedUser = await User.findByIdAndUpdate(foundUser._id, req.body, {new: true});
+		
+		res.redirect('/')
+	} catch (err) {
+		next(err)
+	}
+})
+
 router.get('/logout', (req,res,next) => {
 	req.session.destroy();
 	res.redirect('back');
@@ -211,6 +247,8 @@ router.delete('/wish/:movieId', async (req, res, next) => {
 		next(err)
 	}
 })
+
+
 
 router.get('*',(req,res) => {
 	res.redirect('/movies');
