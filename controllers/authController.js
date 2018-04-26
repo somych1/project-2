@@ -134,6 +134,7 @@ router.get('/wish', async (req, res, next) => {
 		res.render('auth/wish.ejs', {
 			user: foundUser,
 			wishlist: wishlist,
+			hasScheduledShowtimes: wishlist.hasScheduledShowtimes,
 			currLoc: req.session.currLoc,
         	login: false,
         	loggedIn: req.session.loggedIn
@@ -177,25 +178,15 @@ router.get('/watched', async (req, res, next) => {
 })
 
 // post
-router.post('/wish', async (req,res, next) =>{
+router.post('/wish/:movieId', async (req,res, next) =>{
 
 	try{
 		const foundUser = await User.findOne({username: req.session.username})
-		const newWatched = await Wish.create(req.query)
+		const newWatched = await Wish.findOne({'movieId': req.params.movieId})
 		console.log(newWatched)
+		foundUser.wishlist.splice(foundUser.wishlist.indexOf(newWatched),1)
 		foundUser.watched.push(newWatched)
 		await foundUser.save()
-
-
-		const deletedWish = await Wish.findOneAndRemove({'movieId': req.params.movieId});
-		const newFoundUser = await User.findOne({'wishlist.movieId': req.params.movieId})
-		console.log(req.params.movieId)
-		foundUser.wishlist.splice(foundUser.wishlist.indexOf(deletedWish),1)
-		foundUser.save((err, data) => {
-			
-		});
-
-
 		res.redirect('back')
 	} catch(err) {
 		next(err)
