@@ -11,7 +11,6 @@
 				<p> <%= theatre.location.addressLine1 %></p>
 				<p> <%= theatre.location.addressLine2 %></p>
 				<p> <%= theatre.location.city + ", " + theatre.location.state + ", " + theatre.location.postalCode.slice(0,4) %></p>
-				<p> <!--distance from you--></p>
 				<p class="showtime-controls" id="<%= i %>">Showtimes for this theatre &#9660;</p>
 				<div id="showtimes<%= i %>" class="hidden showtimes">
 					<% for (let showtime of theatre.showtimes) {%>
@@ -21,7 +20,7 @@
 								<a href="/movies/<%= showtime.movieId%>"><img class="card-img-left" src="<%= showtime.media.posterDynamic %>"></a>
 								<div class="card-body">
 									<p class="card-text"><%= showtime.movieName %> <span class="rating"><%= showtime.mpaaRating %></span></p>
-									<p class="card-text"><%= "$"+showtime.ticketPrices[0].price %>
+									<p class="card-text"><%= "$"+showtime.ticketPrices[0].price %></p>
 									<p class="card-text"><%= showtime.runTime %> min</p>	
 								</div>
 							</div>

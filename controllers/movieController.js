@@ -5,7 +5,8 @@ const Movie = require('../apidata/movie.js')
 const NowPlaying = require('../apidata/movies.js')
 const User = require('../models/user.js')
 const Wish = require('../models/wishModel.js');
-const ComingSoon = require('../apidata/comingSoon.js')
+const ComingSoon = require('../apidata/comingSoon.js');
+const request = require('request-promise-native');
 
 
 router.get('/contacts', (req, res) => {
@@ -50,7 +51,13 @@ router.get('/:id', async (req,res, next) => {
 				}
 			}
 		}
-		console.log(addButton)
+		
+		let releaseDate = new Date(Movie.releaseDateUtc);
+
+		releaseDate = getDateStr(releaseDate,true,false,true);
+
+		Movie.releaseDate = releaseDate;
+
 		res.render('movies/show.ejs', {
 			button: addButton,
 			movie: Movie,
@@ -64,7 +71,7 @@ router.get('/:id', async (req,res, next) => {
 	
 	// const Movie = require('../apidata/movie.js');
 
-  // const Movie = await Movie.get({
+  // const Movie = await request.get({
       //   url: 'https://api.amctheatres.com/v2/movies/'+req.params.id,
       //   headers: {
       //     'X-AMC-Vendor-Key': process.env.API_KEY
@@ -76,6 +83,60 @@ router.get('/:id', async (req,res, next) => {
 	
 })
 
+// theatre get route
+router.get('/theatre/:id', async (req,res,next) => {
+	try {
+		// const theatre = await request.get({
+		//	url: 'https://api.amctheatres.com/rels/v2/theatre/'+req.params.id,
+        //   headers: {
+        //     'X-AMC-Vendor-Key': process.env.API_KEY
+        //   },
+        //   method: "GET",
+        //   json: true
+		// })
+
+		const theatre = require('../apidata/theatre.js');
+
+		let phone = theatre.guestServicesPhoneNumber
+		phone = phone.slice(-10,-7)+"-"+phone.slice(-7,-4)+"-"+phone.slice(-4);
+
+		theatre.phoneNumber = phone;
+
+		let showtimes;
+
+      // showtimes = await request.get({
+      //   url: "https://api.amctheatres.com/rels/v2/theatres/"+theatre.id+"/showtimes",
+      //   headers: {
+      //     'X-AMC-Vendor-Key': process.env.API_KEY
+      //   },
+      //   method: "GET",
+      //   json: true
+      // })
+
+        showtimes = require('../apidata/theatreShowtimes.js');
+        showtimes = showtimes._embedded.showtimes;
+
+        let dateObj;
+        for (showtime of showtimes) {
+          dateObj = new Date(showtime.showDateTimeLocal);
+
+          showtime.showFormattedDate = getDateStr(dateObj);
+        }
+
+        theatre.showtimes = showtimes;
+
+		res.render('search/theatre.ejs',{
+			theatre: theatre,
+			currLoc: req.session.currLoc,
+	        login: false,
+	        loggedIn: req.session.loggedIn
+		})
+
+	}
+	catch (err) {
+		next(err);
+	}
+})
 
 // post
 router.post('/', async (req,res, next) =>{
@@ -92,17 +153,56 @@ router.post('/', async (req,res, next) =>{
 	}
 })
 
+function nth(d) {
+  if(d>3 && d<21) return d+'th';
+  switch (d % 10) {
+        case 1:  return d+"st";
+        case 2:  return d+"nd";
+        case 3:  return d+"rd";
+        default: return d+"th";
+    }
+}
 
+function getDateStr(date,incTime=true,incWeek=true,incYear=false) {
 
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
+  let time;
+  let dateStr = "";
+  let month;
+  let day;
+  let weekDay;
 
+  if (incWeek) {
+  	weekDay = days[date.getDay()];
+  	dateStr = weekDay+",";
+  }
 
+  day = nth(date.getDate());
 
+  month = months[date.getMonth()];
 
+  dateStr = dateStr+" "+month+" "+day
 
+  if (incYear) {
+  	year = date.getFullYear();
+  	dateStr = dateStr+" "+year;
+  }
 
+  if (incTime) {
+    time = getTimeStr(date);
+    dateStr = dateStr+" "+time;
+  }
 
+  return dateStr;
+}
 
+function getTimeStr(date) {
+  let time = date.toLocaleTimeString('en-US');
+  time = time.slice(0,time.indexOf(':',4)) + time.slice(time.indexOf(':',4)+3);
+  return time;
+}
 
 
 

@@ -1,0 +1,36 @@
+<main class="search container">
+	<div class = "card block">
+		<h3><%= theatre.name %></h3>
+		<div>
+			<div class="theatre-info">
+				<div>
+					<p> <%= theatre.location.addressLine1 %>
+					<% if (theatre.location.addressLine2) { -%>
+						<br><%= theatre.location.addressLine2 %>	
+					<% } -%>
+					<br><%= theatre.location.city + ", " + theatre.location.state + ", " + theatre.location.postalCode.slice(0,4) %></p>
+					<p>Phone: <%= theatre.phoneNumber %></p>
+					
+				</div>
+				<img src="<%= theatre.media.exteriorDynamic %>">
+			</div>
+			<p>Website: <a href="theatre.websiteUrl"><%= theatre.websiteUrl %></a></p>
+			<p class="showtime-controls" id="1">Showtimes for this theatre &#9660;</p>
+			<div id="showtimes1" class="hidden showtimes">
+				<% for (let showtime of theatre.showtimes) {%>
+					<div class = "card showtime">
+						<h5 class = "card-title"><%= showtime.showFormattedDate %></h5>
+						<div class="contents">
+							<a href="/movies/<%= showtime.movieId%>"><img class="card-img-left" src="<%= showtime.media.posterDynamic %>"></a>
+							<div class="card-body">
+								<p class="card-text"><%= showtime.movieName %> <span class="rating"><%= showtime.mpaaRating %></span></p>
+								<p class="card-text"><%= "$"+showtime.ticketPrices[0].price %></p>
+								<p class="card-text"><%= showtime.runTime %> min</p>	
+							</div>
+						</div>
+					</div>
+				<%}%>
+			</div>
+		</div>
+	</div>
+</main>

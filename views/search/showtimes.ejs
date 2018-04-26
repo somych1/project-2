@@ -13,7 +13,7 @@
 	</div>
 	<% for (let showtime of response.showtimes) { -%>
 		<div class = "card block">
-			<h2 class = "card-title"><%= showtime.showFormattedTime %> at <%= showtime.theatre.name %></h2>
+			<h2 class = "card-title"><%= showtime.showFormattedTime %> at <a href="/movies/theatre/<%= showtime.theatreId %>"><%= showtime.theatre.name %></a></h2>
 			<div class="contents">
 				<a href="/movies/<%= showtime.movieId%>"><img class="card-img-left" src="<%= showtime.media.posterDynamic %>"></a>
 				<div class="card-body">
