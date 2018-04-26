@@ -8,7 +8,7 @@ const Wish = require('../models/wishModel.js');
 const ComingSoon = require('../apidata/comingSoon.js');
 const request = require('request-promise-native');
 
-
+//route for the contact section
 router.get('/contacts', (req, res) => {
 	res.render('about/contacts.ejs',{
 		currLoc: req.session.currLoc,
@@ -17,8 +17,10 @@ router.get('/contacts', (req, res) => {
 	})	
 })
 
+//route for the movie index - shows the top 10 movies, now playing movies, and coming soon movies
 router.get('/', async (req, res, next) => {
 	try {
+		//Data that will come from an API
 		const theMovies = Top._embedded.movies;
 		const playingMovies = NowPlaying._embedded.movies;
 		const coming = ComingSoon._embedded.movies;
@@ -37,19 +39,30 @@ router.get('/', async (req, res, next) => {
 	
 });
 
-
+//route for the movie show page
 router.get('/:id', async (req,res, next) => {
 	try{
+		//check to see if the user should see the Add button. 
+		//If it's already in their list, then they won't.
+		//By default, it will show.
 		let addButton = true;
+
+		//if they're not logged, we don't need to check
 		if (req.session.loggedIn) {
+			//find the user in the database
 			const foundUser = await User.findOne({'username': req.session.username})
+			//check to see if it's in their wishlist
+			//if it is, don't show the add button
 			if(foundUser.wishlist && foundUser.wishlist.length > 0) {
 				for(let i = 0; i < foundUser.wishlist.length; i++) {
 					if(Movie.id === foundUser.wishlist[i].movieId) {
 						addButton = false;
 					}
 				}
-			} else if (foundUser.watched && foundUser.watched.length > 0){
+			} 
+			//check to see if it's in their watched list
+			//if it is, don't show the add button
+			else if (foundUser.watched && foundUser.watched.length > 0){
 				for(let i = 0; i < foundUser.watched.length; i++) {
 					if(Movie.id === foundUser.watched[i].movieId) {
 						addButton = false;
@@ -58,10 +71,9 @@ router.get('/:id', async (req,res, next) => {
 			}
 		}
 		
+		//format the release date and save it back to the movie
 		let releaseDate = new Date(Movie.releaseDateUtc);
-
 		releaseDate = getDateStr(releaseDate,true,false,true);
-
 		Movie.releaseDate = releaseDate;
 
 		res.render('movies/show.ejs', {
@@ -93,6 +105,8 @@ router.get('/:id', async (req,res, next) => {
 // theatre get route
 router.get('/theatre/:id', async (req,res,next) => {
 	try {
+		// get the theatre data from the API
+
 		// const theatre = await request.get({
 		//	url: 'https://api.amctheatres.com/rels/v2/theatre/'+req.params.id,
         //   headers: {
@@ -104,11 +118,13 @@ router.get('/theatre/:id', async (req,res,next) => {
 
 		const theatre = require('../apidata/theatre.js');
 
+		//format the phone number and save it back to the theatre
 		let phone = theatre.guestServicesPhoneNumber
 		phone = phone.slice(-10,-7)+"-"+phone.slice(-7,-4)+"-"+phone.slice(-4);
 
 		theatre.phoneNumber = phone;
 
+		//get the showtimes for the theatre from the API
 		let showtimes;
 
       // showtimes = await request.get({
@@ -123,6 +139,7 @@ router.get('/theatre/:id', async (req,res,next) => {
         showtimes = require('../apidata/theatreShowtimes.js');
         showtimes = showtimes._embedded.showtimes;
 
+        //format the date and time for the showtime
         let dateObj;
         for (showtime of showtimes) {
           dateObj = new Date(showtime.showDateTimeLocal);

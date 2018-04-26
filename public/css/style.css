@@ -99,10 +99,10 @@ header p {
   margin-right: 5px;
   margin-bottom: 5px;
 }
-.movie-header .links {
+.links {
   text-align: right;
 }
-.movie-header .links a {
+.links a {
   margin-right: 5px;
 }
 /* Login page */
