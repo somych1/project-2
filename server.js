@@ -1,13 +1,14 @@
+require('dotenv').config();
 const express = require('express');
 const app = express()
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override')
 const expressLayouts = require('express-ejs-layouts');
 const session = require('express-session');
-require('dotenv').config();
 
 
-const port = 3000;
+const PORT = 4000;
+
 const nonAuth = [{route: '/'},{route: '/login'},{route: '/register'},{route: '/logout'},{route: '/login',method: 'POST'},{route: '/register', method: 'POST'},{route: '/search/*'},{route: '/movies/*'},{route: '/contacts'}];
 
 require('./db/db');
@@ -97,7 +98,6 @@ app.use('/movies', movieController)
 
 app.use('/',userController);
 
-
-app.listen(process.env.PORT || port, () => {
-  console.log('listening on port ' + process.env.PORT || port)
+const server = app.listen(process.env.PORT || PORT, () => {
+  console.log('server is listening on ' + process.env.PORT || PORT);
 })
