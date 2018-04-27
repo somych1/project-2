@@ -61,7 +61,7 @@ router.get('/', async (req, res, next) => {
 			coming: coming
 		})
 	} catch(err) {
-		next(err)
+		errHan.handle(err,req,res,next);
 	}
 	
 });
@@ -121,7 +121,7 @@ router.get('/:id', async (req,res, next) => {
 	        loggedIn: req.session.loggedIn
 		})
 	} catch (err) {
-		next(err)
+		errHan.handle(err,req,res,next);
 	}	
 })
 
@@ -182,7 +182,7 @@ router.get('/theatre/:id', async (req,res,next) => {
 
 	}
 	catch (err) {
-		next(err);
+		errHan.handle(err,req,res,next);
 	}
 })
 
@@ -201,7 +201,7 @@ router.post('/', async (req,res, next) =>{
 		res.redirect('back')
 
 	} catch(err) {
-		next(err)
+		errHan.handle(err,req,res,next);
 	}
 })
 

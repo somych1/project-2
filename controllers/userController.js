@@ -7,39 +7,47 @@ const User = require('../models/user');
 const Wish =require('../models/wishModel')
 
 router.get('/',(req,res) => {
+	try {
+	 	let err;
+	 	let register;
+	 	let destPage;
+	 	let host;
+	 	if (req.get('referer')) {
+	 		host = req.get('referer');
+	 		host = host.slice(0,host.indexOf('//')+2)+req.get('host');
+	 	}
 
- 	let err;
- 	let register;
- 	let destPage;
- 	let host;
- 	if (req.get('referer')) {
- 		host = req.get('referer');
- 		host = host.slice(0,host.indexOf('//')+2)+req.get('host');
- 	}
+		err = req.session.err;
+		register = req.session.register;
+		req.session.err = null;
 
-	err = req.session.err;
-	register = req.session.register;
-	req.session.err = null;
+		if (req.session && req.session.dest && req.session.dest !== '/' && req.session.dest !== '/logout') {
+			destPage = req.session.dest;
+		}
+		else if (req.get('referer') !== host+'/' && req.get('referer') !== host+'/logout') {
+			destPage = req.get('referer');
+		}
 
-	if (req.session && req.session.dest && req.session.dest !== '/' && req.session.dest !== '/logout') {
-		destPage = req.session.dest;
+		res.render('user/login.ejs', {
+			errMessage: err,
+			register: register,
+			login: true,
+			destPage: destPage
+		})
 	}
-	else if (req.get('referer') !== host+'/' && req.get('referer') !== host+'/logout') {
-		destPage = req.get('referer');
+	catch(error) {
+		errHan.handle(error,req,res,next);
 	}
-
-	res.render('user/login.ejs', {
-		errMessage: err,
-		register: register,
-		login: true,
-		destPage: destPage
-	})
-
 })
 
 router.get('/logout', (req,res,next) => {
-	req.session.destroy();
-	res.redirect('back');
+	try {
+		req.session.destroy();
+		res.redirect('back');
+	}
+	catch(err) {
+		errHan.handle(err,req,res,next);
+	}
 })
 
 router.post('/login', async (req,res,next) => {
@@ -64,7 +72,7 @@ router.post('/login', async (req,res,next) => {
 		}
 	}
 	catch (err) {
-		next(err);
+		errHan.handle(err,req,res,next);
 	}
 })
 
@@ -107,7 +115,7 @@ router.post('/register', async (req,res,next) => {
 		}
 	}
 	catch (err) {
-		next(err);
+		errHan.handle(err,req,res,next);
 	}
 })
 
@@ -140,7 +148,7 @@ router.get('/wish', async (req, res, next) => {
         	loggedIn: req.session.loggedIn
 		}) 
 	} catch(err){
-		next(err)
+		errHan.handle(err,req,res,next);
 	}
 }) 
 
@@ -173,7 +181,7 @@ router.get('/watched', async (req, res, next) => {
         	loggedIn: req.session.loggedIn
 		}) 
 	} catch(err){
-		next(err)
+		errHan.handle(err,req,res,next);
 	}
 })
 
@@ -189,7 +197,7 @@ router.post('/wish/:movieId', async (req,res, next) =>{
 		await foundUser.save()
 		res.redirect('back')
 	} catch(err) {
-		next(err)
+		errHan.handle(err,req,res,next);
 	}
 })
 
@@ -208,7 +216,7 @@ router.delete('/wish/:movieId', async (req, res, next) => {
 		});
 		res.redirect('/wish')
 	} catch (err) {
-		next(err)
+		errHan.handle(err,req,res,next);
 	}
 })
 

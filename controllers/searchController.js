@@ -3,6 +3,7 @@ const router = express.Router();
 require('dotenv').config();
 const request = require('request-promise-native');
 const dateFun = require('../functions/dateFormat.js');
+const errHan = require('../functions/errorHandling.js');
 
 router.get('/test', async (req,res,next) => {
   try {
@@ -15,12 +16,10 @@ router.get('/test', async (req,res,next) => {
       json: true
     })
 
-    console.log(response);
-
     res.send(response);
   }
   catch (err) {
-    next(err);
+    errHan.handle(err,req,res,next);
   }
 })
 
@@ -256,7 +255,7 @@ router.get('/', async (req,res,next) => {
     }
   }
   catch (err) {
-    next(err)
+    errHan.handle(err,req,res,next);
   }
 })
 
@@ -422,7 +421,7 @@ router.get('/movie/:id', async (req,res,next) => {
     // });
   }
   catch (err) {
-    next(err);
+    errHan.handle(err,req,res,next);
   }
 })
 
