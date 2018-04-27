@@ -13,7 +13,7 @@ module.exports = {
 			console.log(newErr);
 			ErrMod.create(newErr);
 			res.render('error.ejs',{
-	      		backUrl: '/movies',
+	      		backUrl: '/',
 	      		login: false,
 	      		loggedIn: req.session.loggedIn,
 	      		currLoc: req.session.currLoc

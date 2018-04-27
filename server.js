@@ -7,7 +7,7 @@ const session = require('express-session');
 require('dotenv').config();
 
 
-const port = process.env.PORT;
+const port = 3000;
 const nonAuth = [{route: '/'},{route: '/login'},{route: '/register'},{route: '/logout'},{route: '/login',method: 'POST'},{route: '/register', method: 'POST'},{route: '/search/*'},{route: '/movies/*'},{route: '/contacts'}];
 
 require('./db/db');
@@ -98,6 +98,6 @@ app.use('/movies', movieController)
 app.use('/',userController);
 
 
-app.listen(port, () => {
-  console.log('listening on port ' + port)
+app.listen(process.env.PORT || port, () => {
+  console.log('listening on port ' + process.env.PORT || port)
 })

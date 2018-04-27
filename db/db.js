@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const connectStr = "mongodb://localhost/showtimeapp";
+const connectStr = process.env.DB_HOST;
 
 mongoose.connect(connectStr);
 
