@@ -248,7 +248,11 @@ router.delete('/wish/:movieId', async (req, res, next) => {
 	}
 })
 
-
+router.delete('/', async (req, res, next) => {
+	const foundUser =await User.findOneAndRemove({'username': req.session.username})
+	req.session.destroy();
+	res.redirect('/movies')
+})
 
 router.get('*',(req,res) => {
 	res.redirect('/movies');
