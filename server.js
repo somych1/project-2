@@ -7,9 +7,7 @@ const expressLayouts = require('express-ejs-layouts');
 const session = require('express-session');
 
 
-
 const PORT = 4000;
-
 
 const nonAuth = [{route: '/'},{route: '/login'},{route: '/register'},{route: '/logout'},{route: '/login',method: 'POST'},{route: '/register', method: 'POST'},{route: '/search/*'},{route: '/movies/*'},{route: '/contacts'}];
 
@@ -100,11 +98,6 @@ app.use('/movies', movieController)
 
 app.use('/',userController);
 
-
-
 const server = app.listen(process.env.PORT || PORT, () => {
-  console.log('server is listening on port 4000')
+  console.log('server is listening on ' + process.env.PORT || PORT);
 })
-// app.listen(PORT, () => {
-//   console.log('listening on port ' + PORT)
-// })

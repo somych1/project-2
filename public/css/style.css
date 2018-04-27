@@ -28,6 +28,9 @@ h6 {
 h4 {
   color: white;
 }
+.no-add {
+  color: white;
+}
 .link {
   text-decoration: underline;
   cursor: pointer;
@@ -228,6 +231,8 @@ span.title {
 .theatre-info div {
   margin-right: 20px;
 }
-.no-add {
-  color: white;
+/* Error page */
+#error-page {
+  display: flex;
+  flex-direction: column;
 }
