@@ -4,6 +4,7 @@
 <section class="container">
 	<% for(let i = 0; i < wishlist.length; i++) { %>
 		<div class = "card block">
+			<!-- main information for the movie on the wish list -->
 			<div class="contents">
 				<a href="/movies/<%= wishlist[i].id%>"><img class="card-img-left" src="<%= wishlist[i].media.posterDynamic %>"></a>
 				<div class="card-body">
@@ -24,6 +25,7 @@
 				</div>
 
 			</div>
+			<!-- form to allow the user to search for showtimes for the movie. The use will just see a current location search link and a zipcode search link. The other input fields are hidden and have data for the server -->
 			<form class="movie-showtime" id="<%= i %>" action="/search/movie/<%= wishlist[i].id %>" method="GET">
 				<% if (currLoc) { -%>
 					<p class="currLoc link">Search for showtimes using current location</p>

@@ -2,6 +2,7 @@
 	<div class = "card block">
 		<h3><%= theatre.name %></h3>
 		<div>
+			<!-- main theater info -->
 			<div class="theatre-info">
 				<div>
 					<p> <%= theatre.location.addressLine1 %>
@@ -15,9 +16,12 @@
 				<img src="<%= theatre.media.exteriorDynamic %>">
 			</div>
 			<p>Website: <a href="theatre.websiteUrl"><%= theatre.websiteUrl %></a></p>
+			<!-- add showtimes to the theater -->
 			<p class="showtime-controls" id="1">Showtimes for this theatre &#9660;</p>
+			<!-- this will be hidden initially -->
 			<div id="showtimes1" class="hidden showtimes">
 				<% for (let showtime of theatre.showtimes) {%>
+					<!-- add an individual showtime -->
 					<div class = "card showtime">
 						<h5 class = "card-title"><%= showtime.showFormattedDate %></h5>
 						<div class="contents">

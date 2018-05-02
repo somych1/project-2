@@ -8,6 +8,7 @@ const Wish = require('../models/wishModel.js');
 //const ComingSoon = require('../apidata/comingSoon.js');
 const request = require('request-promise-native');
 const dateFun = require('../functions/dateFormat.js');
+const errHan = require('../functions/errorHandling.js');
 
 //route for the contact section
 router.get('/contacts', (req, res) => {
@@ -21,7 +22,7 @@ router.get('/contacts', (req, res) => {
 //route for the movie index - shows the top 10 movies, now playing movies, and coming soon movies
 router.get('/', async (req, res, next) => {
 	try {
-		//Data that will come from an API
+		//Data from the AMC API
 		const Top = await request.get({
       		url: 'https://api.amctheatres.com/v2/movies/views/top-10-grossing',
 	      headers: {
@@ -52,6 +53,7 @@ router.get('/', async (req, res, next) => {
 	    })
 		const coming = ComingSoon._embedded.movies;
 
+		//render the movie index
 		res.render('movies/index.ejs', {
 			topMovies: theMovies,
 			nowMovies: playingMovies,

@@ -3,17 +3,27 @@ const ErrMod = require('../models/error.js');
 module.exports = {
 	handle(err,req,res,next) {
 		try {
+			//create an error object
+			let method;
+			let url;
+			if (err.options) {
+				url = err.options.url;
+				method = err.options.method;
+			}
+
 			newErr = {
-				status: '404',
 				name: err.name,
 				message: err.message,
-				url: err.options.url,
-				method: err.options.method
+				url: url,
+				method: method
 			}
-			console.log(newErr);
+
+			//add the error the database
 			ErrMod.create(newErr);
+
+			//render the error page
 			res.render('error.ejs',{
-	      		backUrl: '/',
+	      		backUrl: '/movies',
 	      		login: false,
 	      		loggedIn: req.session.loggedIn,
 	      		currLoc: req.session.currLoc

@@ -5,10 +5,11 @@
 	</div>
 	<h1>Sign In</h1>
 </header>
-<section class="container block  justify-content-center">
+<section class="container block justify-content-center">
 	<div class="login">
 		<div class="col">
 			<div id="tabs">
+				<!-- Set up the tabs. The server will tell us if we're loading the registration form or the login form -->
 				<% if (register) { -%>
 					<h4 id="login">Login</h4>
 					<h4 id="register" class="highlighted">Register</h4>
@@ -18,9 +19,12 @@
 				<% } -%>
 				
 			</div>
+			<!-- if there's an error message, show it -->
 			<% if (errMessage) { -%>
 				<p id="error"><%= errMessage %></p>
 			<% } -%>
+
+			<!-- Load the form. The server will tell us if we're loading the registration form or the login form -->
 			<form id="login-form"
 			<% if (register) { -%>
 				action="/register"
@@ -28,13 +32,14 @@
 				action="/login"
 			<% } -%> method="POST">
 
-				
 				<input type="text" name="username" placeholder="Username"><br><br>
 				<input type="password" name="password" placeholder="Password"><br><br>
 				<input type="text" class="hidden" name="dest" value="<%= destPage %>">
 				<input type="submit" value="Submit">
+
 			</form>
 		</div><br>
+		<!-- give the user the option to skip logging in -->
 		<p class="text-center"><a class="text-white" href="/movies">Continue without logging in</a></p>
 	</div>
 </section>

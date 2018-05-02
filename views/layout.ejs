@@ -3,15 +3,20 @@
 <head>
 	<title>AMC Movies</title>
 	<meta charset="utf-8">
+	<!-- Bootstrap styles -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+	<!-- Custom styles -->
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<!-- jQuery -->
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 </head>
 <body>
+	<!-- load this if we're not on a login page -->
 	<% if (!login) { -%>
 		<header class="sticky-top">
 			<div class="movie-header">
+				<!-- Form to allow user's to perform location, name, and showtime searches from the header. The user will see a zipcode and name box with a submit button. The other inputs are hidden and have data for the server. The user will also get a use current location link when their position has loaded. -->
 				<div class="search-boxes">
 					<form action="/search" method="GET">
 						<div>
@@ -33,6 +38,7 @@
 						<button type="submit">Search</button>
 					</form>	
 				</div>
+				<!-- navigation links -->
 				<div class="links">
 					<a href="/movies">Home</a>
 					<a href="/movies/contacts">Contacts</a>
@@ -48,9 +54,12 @@
 			</div>
 		</header>
 	<% } -%>
+	<!-- load the body of the page we're showing -->
 	<%- body %>
 	
+	<!-- load custom JavaScript -->
 	<script type="text/javascript" src="/js/app.js"></script>
+	<!-- load Bootstrap JS -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 </body>
